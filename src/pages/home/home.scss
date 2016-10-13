@@ -1,0 +1,57 @@
+ion-content {
+     background: rgba(73,155,234,1);
+    background: -moz-linear-gradient(left, rgba(73,155,234,1) 0%, rgba(12,85,163,1) 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(73,155,234,1)), color-stop(100%, rgba(12,85,163,1)));
+    background: -webkit-linear-gradient(left, rgba(73,155,234,1) 0%, rgba(12,85,163,1) 100%);
+    background: -o-linear-gradient(left, rgba(73,155,234,1) 0%, rgba(12,85,163,1) 100%);
+    background: -ms-linear-gradient(left, rgba(73,155,234,1) 0%, rgba(12,85,163,1) 100%);
+    background: linear-gradient(to right, rgba(73,155,234,1) 0%, rgba(12,85,163,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#499bea', endColorstr='#0c55a3', GradientType=1 );
+}
+
+page-home {
+
+    ion-card.top-card {
+        margin:0 0 10px 0;
+        width:100%;
+        background:rgba(0,0,0,0.1);
+    }
+
+   ion-thumbnail[item-left]{
+        padding: 5px;
+        float: left;
+        background: cadetblue;
+        height: 50px;
+        width: 50px;
+    }
+
+    ion-thumbnail[item-left] img {
+        display: block;
+        width: 90%;
+        padding: 5%;
+    }
+
+    ion-card ion-thumbnail[item-left] {
+        width: 120px;
+        height: 120px;
+        margin: 0 10px 10px 0;
+        background:transparent !important;
+    }
+
+    ion-card h2 {
+        font-size:4rem !important;
+        color:#fff !important;
+    }
+
+    ion-card p {
+        font-size:2rem !important;
+        color:#fff !important;
+    }
+
+    ion-item {
+        background:rgba(0,0,0,0.1);
+        color:#fff;
+
+    }
+}
+

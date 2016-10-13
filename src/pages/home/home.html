@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Lyneham</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card class="top-card">
+    <ion-card-content>
+      <ion-thumbnail item-left>
+        <img src="assets/images/{{latestObs.type}}">
+      </ion-thumbnail>
+      <h2>{{latestObs.temp}}</h2>
+      <p>{{latestObs.time}}</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-list>
+  <ion-item  *ngFor="let observation of observations">
+    <ion-thumbnail item-left>
+      <img src="assets/images/{{observation.type}}">
+    </ion-thumbnail>
+    <h2>{{observation.temp}}</h2>
+    <p>{{observation.time}}</p>
+  </ion-item>
+</ion-list>
+</ion-content>
