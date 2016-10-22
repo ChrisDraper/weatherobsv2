@@ -20,68 +20,66 @@ export class Data {
 
   getLatestObservation(): any {
       //Return a default set of results;
-      return {temp: "Loading...", time: "Loading...", type: "images/sunny.svg"};
+      return {temp: "Loading...", time: "Loading...", type: "sunny.svg"};
   }
 
  formatObservation(data): any {
       this.formattedData = {time: '', temp: '', type: ''};
       // Time
-      var date = new Date(data.dt*1000);
-      var hours = date.getHours();
-      var minutes = "0" + date.getMinutes();
-      var formattedTime = hours + ':' + minutes.substr(-2);
-      this.formattedData.time = formattedTime;
+      var date = new Date(data.dataDate);
+      if (date.getHours()> 11) {
+          this.formattedData.time = date.getHours()-12 + 'pm';
+      } else {
+          this.formattedData.time = date.getHours() + 'am';
+      }
+      // Get latest data record
+      var latestData = data.Location.Period.slice(-1)[0].Rep.slice(-1)[0];
       // Temperature
-      this.formattedData.temp = data.main.temp + "C";
-      // Weather icon
-      //01d.png      01n.png      clear sky           
-      //02d.png      02n.png      few clouds          
-      //03d.png      03n.png      scattered clouds    
-      //04d.png      04n.png      broken clouds       
-      //09d.png      09n.png      shower rain         
-      //10d.png      10n.png      rain                
-      //11d.png      11n.png      thunderstorm        
-      //13d.png      13n.png      snow                
-      //50d.png      50n.png      mist                
+     this.formattedData.temp =  latestData.T + "C";
+      // Weather icon      
+
       var iconImage = "/";
-      switch (data.weather[0].icon) {
-        case "01d":
+      switch (latestData.W) {
+        case "1":
           this.formattedData.type = iconImage + "sunny.svg";
           break;
-        case "02d":
+        case "3":
           this.formattedData.type = iconImage + "scatcloud.svg";
           break;
-        case "03d", "03n":
+        case "7":
           this.formattedData.type = iconImage + "lcloud.svg";
           break;
-        case "04d", "04n":
+        case "8":
           this.formattedData.type = iconImage + "dcloud.svg";
           break;
-        case "09d", "09n":
+        case "9", "10", "13", "14", "16", "17", "19", "20", "21":
           this.formattedData.type = iconImage + "rshower.svg";
           break;
-        case "10d", "10n":
+        case "11", "12", "15":
           this.formattedData.type = iconImage + "rain.svg";
           break;
-        case "11d", "11n":
+        case "28", "29", "30":
           this.formattedData.type = iconImage + "thunderstorm.svg";
           break;
-        case "13d", "13n":
+        case "18", "17", "22", "23", "24", "25", "26", "27":
           this.formattedData.type = iconImage + "snow.svg";
           break;
-        case "50d", "50n":
+        case "5", "6":
           this.formattedData.type = iconImage + "mist.svg";
           break;
-        case "01n":
+        case "0":
           this.formattedData.type = iconImage + "night-clear.svg";
           break;
-        case "02n":
+        case "2":
           this.formattedData.type = iconImage + "night-partlyclear.svg";
+          break;
+        case "NA":
+          this.formattedData.type = iconImage + "sunny.svg";
           break;
         default:
           this.formattedData.type = iconImage + "sunny.svg";
       }
-      console.log('Data: ' + data.weather[0].icon, this.formattedData.type);
+      console.log('Formatted data: ' + this.formattedData.time, this.formattedData.temp, this.formattedData.type );
 
       // Return formatted json data
       return this.formattedData;

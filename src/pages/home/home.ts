@@ -16,21 +16,24 @@ export class HomePage {
   appid: string;
 
 	constructor(public navCtrl: NavController, public dataService: Data, private http: Http, public alertCtrl: AlertController) {
-
+    console.log('Home');
     // Latest observation
     this.latestObs = this.dataService.getLatestObservation();
     
-    this.cityid = '2652318';
-    this.appid = '93d084a13ebef466e99ba2ccda6458f7';
-    this.http.get('http://api.openweathermap.org/data/2.5/weather?lat=51.431443&lon=-2.189674&units=metric&APPID=' + this.appid)
+    this.cityid = '3740'; // Lyneham
+    this.appid = 'c52882f0-643b-4821-ad25-f2b8862ce289';
+    this.http.get('http://datapoint.metoffice.gov.uk/public/data/val/wxobs/all/json/' + this.cityid + '?res=hourly&key=' + this.appid)
               .map(res => res.json())
               .subscribe(
                   data => {
-                    this.latestObs = this.dataService.formatObservation(data);
+                    console.log(data.SiteRep.DV.dataDate);
+                    this.latestObs = this.dataService.formatObservation(data.SiteRep.DV);
                   },
                   error => {
                       this.showConectionErrAlert();
                   });
+
+    
 
     // Recent observations (After the latest observation)
 		this.observations = this.dataService.getRecentObservations();
