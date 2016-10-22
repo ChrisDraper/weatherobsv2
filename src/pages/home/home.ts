@@ -20,7 +20,7 @@ export class HomePage {
     // Latest observation
     this.latestObs = this.dataService.getLatestObservation();
     
-    this.cityid = '3740'; // Lyneham
+    this.cityid = '3740'; // Lynehams
     this.appid = 'c52882f0-643b-4821-ad25-f2b8862ce289';
     this.http.get('http://datapoint.metoffice.gov.uk/public/data/val/wxobs/all/json/' + this.cityid + '?res=hourly&key=' + this.appid)
               .map(res => res.json())
