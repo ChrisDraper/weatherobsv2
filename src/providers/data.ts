@@ -36,8 +36,8 @@ export class Data {
       var latestData = data.Location.Period.slice(-1)[0].Rep.slice(-1)[0];
       // Temperature
      this.formattedData.temp =  latestData.T + "C";
-      // Weather icon      
-
+      // Weather icons
+   
       var iconImage = "/";
       switch (latestData.W) {
         case "1":
