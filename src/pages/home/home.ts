@@ -35,7 +35,7 @@ export class HomePage {
 
     
 
-    // Recent observations (After the latest observation)
+    // Recent observations (After the latest observation).
 		this.observations = this.dataService.getRecentObservations();
 
 	}
