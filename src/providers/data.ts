@@ -79,7 +79,7 @@ export class Data {
   }
 
   formatType(type): any {
-      var iconImage = "/";
+      var iconImage = "";
       var ftype = ""
       switch (type) {
         case "1":
