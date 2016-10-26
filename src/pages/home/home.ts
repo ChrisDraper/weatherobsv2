@@ -22,17 +22,7 @@ export class HomePage {
     
     this.cityid = '3740'; // Lynehams
     this.appid = 'c52882f0-643b-4821-ad25-f2b8862ce289';
-    this.http.get('http://datapoint.metoffice.gov.uk/public/data/val/wxobs/all/json/' + this.cityid + '?res=hourly&key=' + this.appid)
-              .map(res => res.json())
-              .subscribe(
-                  data => {
-                    console.log(data.SiteRep.DV.dataDate);
-                    this.latestObs = this.dataService.formatObservation(data.SiteRep.DV);
-                    this.observations = this.dataService.formatRecentObservations(data.SiteRep.DV);
-                  },
-                  error => {
-                      this.showConectionErrAlert();
-                  });
+    this.refreshObs();
 
 	}
 
@@ -43,6 +33,21 @@ export class HomePage {
         buttons: ['FAIR ENOUGH']
       });
       alert.present();
+  }
+
+  refreshObs() {
+    console.log('Refresh the API!!!');
+     this.http.get('http://datapoint.metoffice.gov.uk/public/data/val/wxobs/all/json/' + this.cityid + '?res=hourly&key=' + this.appid)
+              .map(res => res.json())
+              .subscribe(
+                  data => {
+                    console.log(data.SiteRep.DV.dataDate);
+                    this.latestObs = this.dataService.formatObservation(data.SiteRep.DV);
+                    this.observations = this.dataService.formatRecentObservations(data.SiteRep.DV);
+                  },
+                  error => {
+                      this.showConectionErrAlert();
+                  });
   }
 
 }

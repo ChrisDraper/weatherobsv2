@@ -9,6 +9,7 @@ page-home {
         margin:0 0 10px 0;
         width:100%;
         background: rgba(1,1,1,0.4) !important;
+        position:relative;
     }
 
    ion-thumbnail[item-left]{
@@ -40,6 +41,17 @@ page-home {
     ion-card p {
         font-size:2rem !important;
         color:#fff !important;
+    }
+
+    ion-card ion-icon.card-refresh {
+        position:absolute;
+        bottom:0px;
+        right:10px;
+        color:#fff;
+    }
+
+    ion-card ion-icon.card-refresh:before {
+        font-size:30px;
     }
 
     ion-item {
