@@ -28,15 +28,11 @@ export class HomePage {
                   data => {
                     console.log(data.SiteRep.DV.dataDate);
                     this.latestObs = this.dataService.formatObservation(data.SiteRep.DV);
+                    this.observations = this.dataService.formatRecentObservations(data.SiteRep.DV);
                   },
                   error => {
                       this.showConectionErrAlert();
                   });
-
-    
-
-    // Recent observations (After the latest observation).
-		this.observations = this.dataService.getRecentObservations();
 
 	}
 

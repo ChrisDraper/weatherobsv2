@@ -15,6 +15,7 @@ export class Data {
   cityid: string;
   appid: string;
   formattedData: any;
+  formattedObservations: any;
 
   constructor(private http: Http) {}
 
@@ -27,103 +28,100 @@ export class Data {
       this.formattedData = {time: '', temp: '', type: ''};
       // Time
       var date = new Date(data.dataDate);
-      if (date.getHours()> 11) {
-          this.formattedData.time = date.getHours()-12 + 'pm';
-      } else {
-          this.formattedData.time = date.getHours() + 'am';
-      }
+      this.formattedData.time = this.formatTime(date);
       // Get latest data record
       var latestData = data.Location.Period.slice(-1)[0].Rep.slice(-1)[0];
       // Temperature
-     this.formattedData.temp =  latestData.T + "C";
+     this.formattedData.temp =  this.formatTemp(latestData.T);
       // Weather icons
-   
-      var iconImage = "/";
-      switch (latestData.W) {
-        case "1":
-          this.formattedData.type = iconImage + "sunny.svg";
-          break;
-        case "3":
-          this.formattedData.type = iconImage + "scatcloud.svg";
-          break;
-        case "7":
-          this.formattedData.type = iconImage + "lcloud.svg";
-          break;
-        case "8":
-          this.formattedData.type = iconImage + "dcloud.svg";
-          break;
-        case "9", "10", "13", "14", "16", "17", "19", "20", "21":
-          this.formattedData.type = iconImage + "rshower.svg";
-          break;
-        case "11", "12", "15":
-          this.formattedData.type = iconImage + "rain.svg";
-          break;
-        case "28", "29", "30":
-          this.formattedData.type = iconImage + "thunderstorm.svg";
-          break;
-        case "18", "17", "22", "23", "24", "25", "26", "27":
-          this.formattedData.type = iconImage + "snow.svg";
-          break;
-        case "5", "6":
-          this.formattedData.type = iconImage + "mist.svg";
-          break;
-        case "0":
-          this.formattedData.type = iconImage + "night-clear.svg";
-          break;
-        case "2":
-          this.formattedData.type = iconImage + "night-partlyclear.svg";
-          break;
-        case "NA":
-          this.formattedData.type = iconImage + "sunny.svg";
-          break;
-        default:
-          this.formattedData.type = iconImage + "sunny.svg";
-      }
+      this.formattedData.type = this.formatType(latestData.W);
+    
       console.log('Formatted data: ' + this.formattedData.time, this.formattedData.temp, this.formattedData.type );
 
       // Return formatted json data
       return this.formattedData;
  }
 
-  getRecentObservations(): any {
-    return [
-            {type: 'snow.svg',
-            temp: '-1.2C',
-            time: '2PM'},
-            {type: 'lsnow.svg',
-            temp: '-1.1C',
-            time: '1PM'},
-            {type: 'dcloud.svg',
-            temp: '-1.1C',
-            time: '12PM'},
-            {type: 'rain.svg',
-            temp: '-1.1C',
-            time: '11AM'},
-            {type: 'lcloud.svg',
-            temp: '-1.0C',
-            time: '10AM'},
-            {type: 'rshowers.svg',
-            temp: '-1.0C',
-            time: '10AM'},
-            {type: 'thunderstorm.svg',
-            temp: '-1.0C',
-            time: '10AM'},
-            {type: 'sunny.svg',
-            temp: '-1.0C',
-            time: '10AM'},
-            {type: 'scatcloud.svg',
-            temp: '-1.0C',
-            time: '10AM'},
-            {type: 'night-clear.svg',
-            temp: '-1.0C',
-            time: '10AM'},
-            {type: 'night-partlyclear.svg',
-            temp: '-1.0C',
-            time: '10AM'},
-            {type: 'mist.svg',
-            temp: '-1.0C',
-            time: '10AM'},
-        ];
+  formatRecentObservations(data): any {
+      this.formattedObservations = [];
+      
+      // Get second latest data record
+      var step;
+      for (step = -2; step > -7; step--) {
+          var latestObs = data.Location.Period.slice(-1)[0].Rep.slice(step)[0];
+          var date = new Date(data.dataDate);
+          date.setHours(date.getHours() - ((step*-1)-1));
+          this.formattedObservations.push({
+            type: this.formatType(latestObs.W),
+            temp: this.formatTemp(latestObs.T),
+            time: this.formatTime(date)
+          })
+      }
+
+      // Return formatted json data
+      return this.formattedObservations;
+  }
+
+  formatTime(date): any {
+      var ftime = "";
+      if (date.getHours()> 11) {
+          ftime = date.getHours()-12 + 'pm';
+      } else {
+          ftime = date.getHours() + 'am';
+      }
+      return ftime;
+  }
+
+  formatTemp(temp): any {
+      var ftemp = "";
+      ftemp = temp + "C"
+      return ftemp;
+  }
+
+  formatType(type): any {
+      var iconImage = "/";
+      var ftype = ""
+      switch (type) {
+        case "1":
+          ftype = iconImage + "sunny.svg";
+          break;
+        case "3":
+          ftype = iconImage + "scatcloud.svg";
+          break;
+        case "7":
+          ftype = iconImage + "lcloud.svg";
+          break;
+        case "8":
+          ftype = iconImage + "dcloud.svg";
+          break;
+        case "9", "10", "13", "14", "16", "17", "19", "20", "21":
+          ftype = iconImage + "rshower.svg";
+          break;
+        case "11", "12", "15":
+          ftype = iconImage + "rain.svg";
+          break;
+        case "28", "29", "30":
+          ftype = iconImage + "thunderstorm.svg";
+          break;
+        case "18", "17", "22", "23", "24", "25", "26", "27":
+          ftype = iconImage + "snow.svg";
+          break;
+        case "5", "6":
+          ftype = iconImage + "mist.svg";
+          break;
+        case "0":
+          ftype = iconImage + "night-clear.svg";
+          break;
+        case "2":
+          ftype = iconImage + "night-partlyclear.svg";
+          break;
+        case "NA":
+          ftype = iconImage + "sunny.svg";
+          break;
+        default:
+          ftype = iconImage + "sunny.svg";
+      }
+      return ftype;
   }
 
 
