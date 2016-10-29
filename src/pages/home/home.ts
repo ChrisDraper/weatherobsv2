@@ -10,16 +10,17 @@ import {Data} from '../../providers/data';
 export class HomePage {
 	observations: any;
   latestObs: any;
+  lastUpdated: any;
 
   
   cityid: string;
   appid: string;
 
 	constructor(public navCtrl: NavController, public dataService: Data, private http: Http, public alertCtrl: AlertController) {
-    console.log('Home');
+  
     // Latest observation
+    this.displayLastUpdateTime();
     this.latestObs = this.dataService.getLatestObservation();
-    
     this.cityid = '3740'; // Lynehams
     this.appid = 'c52882f0-643b-4821-ad25-f2b8862ce289';
     this.refreshObs();
@@ -36,18 +37,54 @@ export class HomePage {
   }
 
   refreshObs() {
-    console.log('Refresh the API!!!');
      this.http.get('http://datapoint.metoffice.gov.uk/public/data/val/wxobs/all/json/' + this.cityid + '?res=hourly&key=' + this.appid)
               .map(res => res.json())
               .subscribe(
                   data => {
-                    console.log(data.SiteRep.DV.dataDate);
+                    this.dataService.saveLastUpdateTime();
                     this.latestObs = this.dataService.formatObservation(data.SiteRep.DV);
                     this.observations = this.dataService.formatRecentObservations(data.SiteRep.DV);
+                    this.displayLastUpdateTime();
                   },
                   error => {
                       this.showConectionErrAlert();
                   });
+  }
+
+  pullRefresh(refresher) {
+    console.log('pullRefreshObs', refresher);
+     this.http.get('http://datapoint.metoffice.gov.uk/public/data/val/wxobs/all/json/' + this.cityid + '?res=hourly&key=' + this.appid)
+              .map(res => res.json())
+              .subscribe(
+                  data => {
+                    this.dataService.saveLastUpdateTime();
+                    setTimeout(() => {
+                        refresher.complete();
+                        this.latestObs = this.dataService.formatObservation(data.SiteRep.DV);
+                        this.observations = this.dataService.formatRecentObservations(data.SiteRep.DV);
+                        this.displayLastUpdateTime();
+                    }, 2000);
+                  },
+                  error => {
+                    setTimeout(() => {
+                        this.showConectionErrAlert();
+                        refresher.complete();
+                    }, 2000);
+                  });
+  }
+
+
+  displayLastUpdateTime() {
+
+    this.dataService.getLastUpdateTime().then((lastupdated) => {
+ 
+      if(lastupdated){
+        var date = new Date(lastupdated);
+        this.lastUpdated = this.dataService.formatLastUpdated(date);
+      }
+ 
+    });
+    
   }
 
 }

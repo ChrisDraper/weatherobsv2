@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
+import { Storage } from '@ionic/storage';
 import 'rxjs/add/operator/map';
 
 /*
@@ -17,7 +18,7 @@ export class Data {
   formattedData: any;
   formattedObservations: any;
 
-  constructor(private http: Http) {}
+  constructor(private http: Http, public storage: Storage) {}
 
   getLatestObservation(): any {
       //Return a default set of results;
@@ -35,8 +36,6 @@ export class Data {
      this.formattedData.temp =  this.formatTemp(latestData.T);
       // Weather icons
       this.formattedData.type = this.formatType(latestData.W);
-    
-      console.log('Formatted data: ' + this.formattedData.time, this.formattedData.temp, this.formattedData.type );
 
       // Return formatted json data
       return this.formattedData;
@@ -65,7 +64,11 @@ export class Data {
   formatTime(date): any {
       var ftime = "";
       if (date.getHours()> 11) {
-          ftime = date.getHours()-12 + 'pm';
+          if (date.getHours()==12) {
+            ftime = '12pm';
+          } else {
+            ftime = date.getHours()-12 + 'pm';
+          }
       } else {
           ftime = date.getHours() + 'am';
       }
@@ -124,5 +127,32 @@ export class Data {
       return ftype;
   }
 
+  getLastUpdateTime() {
+    return this.storage.get('lastupdated');  
+  }
+ 
+  saveLastUpdateTime(){
+    var updated = new Date();
+    this.storage.set('lastupdated', updated);
+  }
+
+  formatLastUpdated(date) {
+    var ret = '';
+    var updated = new Date(date);
+    var current = new Date();
+    var diffMs = Math.abs((current.getMinutes() - updated.getMinutes())); // minutes since last update
+
+    switch (diffMs) { // Use the minutes value to format our string
+      case 0:
+        ret = "Updated just now";
+        break;
+      case 1:
+        ret = "Updated one minute ago";
+        break;
+      default:
+        ret = "Updated " + diffMs.toString() + " minutes ago";
+    }
+    return ret;
+  }
 
 }

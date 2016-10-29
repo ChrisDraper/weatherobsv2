@@ -4,7 +4,10 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding>  
+  <ion-refresher (ionRefresh)="pullRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-card class="top-card">
     <ion-card-content>
       <ion-thumbnail item-left>
@@ -12,7 +15,7 @@
       </ion-thumbnail>
       <h2>{{latestObs.temp}}</h2>
       <p>{{latestObs.time}}</p>
-       <ion-icon name="refresh" class="card-refresh" (click)='refreshObs()'></ion-icon>
+      <em>{{lastUpdated}}</em>
     </ion-card-content>
   </ion-card>
 
