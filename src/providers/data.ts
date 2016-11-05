@@ -22,7 +22,7 @@ export class Data {
 
   getLatestObservation(): any {
       //Return a default set of results;
-      return {temp: "Loading...", time: "Loading...", type: "sunny.svg"};
+      return {temp: "", time: "", type: "ring.svg"};
   }
 
  formatObservation(data): any {
@@ -152,7 +152,7 @@ export class Data {
       default:
         ret = "Updated " + diffMs.toString() + " minutes ago";
     }
-    return ret;
+    return "Updated " + updated.getHours() + ":" + updated.getMinutes() + "" ;
   }
 
 }

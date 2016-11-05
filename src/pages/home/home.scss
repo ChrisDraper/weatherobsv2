@@ -1,5 +1,15 @@
+ion-header {
+    .toolbar-background {
+        background-color:transparent;
+    }
+
+    .toolbar-title {
+        color:#fff;
+    }
+}
+
 ion-content {
-     background: dodgerblue url(../assets/images/content_bg.jpg) left top no-repeat;
+     background: blue url(../assets/images/blue-sky.jpg) left top no-repeat;
      background-size: cover;
 }
 

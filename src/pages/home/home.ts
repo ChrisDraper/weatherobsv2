@@ -19,7 +19,7 @@ export class HomePage {
 	constructor(public navCtrl: NavController, public dataService: Data, private http: Http, public alertCtrl: AlertController) {
   
     // Latest observation
-    this.displayLastUpdateTime();
+    //this.displayLastUpdateTime();
     this.latestObs = this.dataService.getLatestObservation();
     this.cityid = '3740'; // Lynehams
     this.appid = 'c52882f0-643b-4821-ad25-f2b8862ce289';
@@ -42,9 +42,11 @@ export class HomePage {
               .subscribe(
                   data => {
                     this.dataService.saveLastUpdateTime();
-                    this.latestObs = this.dataService.formatObservation(data.SiteRep.DV);
-                    this.observations = this.dataService.formatRecentObservations(data.SiteRep.DV);
-                    this.displayLastUpdateTime();
+                    setTimeout(() => {
+                      this.latestObs = this.dataService.formatObservation(data.SiteRep.DV);
+                      this.observations = this.dataService.formatRecentObservations(data.SiteRep.DV);
+                      this.displayLastUpdateTime();
+                    }, 1500);
                   },
                   error => {
                       this.showConectionErrAlert();
