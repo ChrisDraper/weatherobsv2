@@ -67,8 +67,9 @@ page-home {
     }
 
     ion-card p {
-        font-size:2rem !important;
+        font-size:1.4rem !important;
         color:#fff !important;
+        line-height: 1.4em !important;
     }
 
     ion-card em {
@@ -80,7 +81,13 @@ page-home {
         right: 10px;
     }
 
+    ion-card em.obs-time {
+        right: auto;
+        left:10px;
+    }
+
     ion-item {
+        position:relative;
         background: rgba(1,1,1,0.4) !important;
         color:#fff !important;
         border-top:none !important;
@@ -94,8 +101,20 @@ page-home {
         border-bottom: none !important;
     }
 
+    ion-item h2 {
+        font-size:2rem !important;
+    }
+
     ion-item p {
         color:#fff !important;
+        font-size:1.3rem !important;
+    }
+
+    ion-item em {
+        position:absolute;
+        bottom: 5px;
+        left: 10px;
+        font-size:1.3rem !important;
     }
 }
 

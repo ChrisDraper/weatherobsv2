@@ -25,6 +25,11 @@ export class HomePage {
     this.appid = 'c52882f0-643b-4821-ad25-f2b8862ce289';
     this.refreshObs();
 
+    // Resume app listener - buggy? May revisit when using local storage
+    //document.addEventListener('resume', () => {
+    //  this.resumeObs();
+    //});
+
 	}
 
   showConectionErrAlert() {
@@ -75,6 +80,12 @@ export class HomePage {
                   });
   }
 
+ resumeObs() {
+      this.lastUpdated = 'Reloading...';
+      setTimeout(() => {
+        this.displayLastUpdateTime();
+      }, 2000);
+ }
 
   displayLastUpdateTime() {
 

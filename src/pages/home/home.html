@@ -14,7 +14,12 @@
         <img src="assets/images/{{latestObs.type}}">
       </ion-thumbnail>
       <h2>{{latestObs.temp}}</h2>
-      <p>{{latestObs.time}}</p>
+      <p>{{latestObs.typeDesc}}
+        <br />{{latestObs.windSpeed}} {{latestObs.windDirection}}
+        <br />{{latestObs.pressure}}
+        <br />{{latestObs.dewPoint}}
+        </p>
+      <em class="obs-time">{{latestObs.time}}</em>
       <em>{{lastUpdated}}</em>
     </ion-card-content>
   </ion-card>
@@ -25,7 +30,12 @@
       <img src="assets/images/{{observation.type}}">
     </ion-thumbnail>
     <h2>{{observation.temp}}</h2>
-    <p>{{observation.time}}</p>
+    <p>{{observation.typeDesc}}
+        <br />{{observation.windSpeed}} {{observation.windDirection}}
+        <br />{{observation.pressure}}
+        <br />{{observation.dewPoint}}
+        </p>
+    <em class="obs-time">{{observation.time}}</em>
   </ion-item>
 </ion-list>
 </ion-content>

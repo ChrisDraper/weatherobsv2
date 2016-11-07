@@ -26,7 +26,7 @@ export class Data {
   }
 
  formatObservation(data): any {
-      this.formattedData = {time: '', temp: '', type: ''};
+      this.formattedData = {time: '', temp: '', type: '', typeDesc: '', windSpeed: '', windDirection: '', pressure: '', dewPoint: ''};
       // Time
       var date = new Date(data.dataDate);
       this.formattedData.time = this.formatTime(date);
@@ -36,6 +36,16 @@ export class Data {
      this.formattedData.temp =  this.formatTemp(latestData.T);
       // Weather icons
       this.formattedData.type = this.formatType(latestData.W);
+      // Weather type description
+      this.formattedData.typeDesc = this.formatTypeDesc(latestData.W);
+      // Wind speed
+      this.formattedData.windSpeed = this.formatWindSpeed(latestData.S); 
+      // Wind direction
+      this.formattedData.windDirection = this.formatWindDirection(latestData.D); 
+      // Pressure
+      this.formattedData.pressure = this.formatPressure(latestData.P); 
+      // Dew point
+      this.formattedData.dewPoint = this.formatDewPoint(latestData.Dp);
 
       // Return formatted json data
       return this.formattedData;
@@ -45,20 +55,44 @@ export class Data {
       this.formattedObservations = [];
       
       // Get second latest data record
+      //typeDesc: '', windSpeed: '', windDirection: '', pressure: '', dewPoint: ''
       var step;
-      for (step = -2; step > -7; step--) {
+      for (step = -2; step > -14; step--) {
           var latestObs = data.Location.Period.slice(-1)[0].Rep.slice(step)[0];
           var date = new Date(data.dataDate);
           date.setHours(date.getHours() - ((step*-1)-1));
           this.formattedObservations.push({
             type: this.formatType(latestObs.W),
             temp: this.formatTemp(latestObs.T),
-            time: this.formatTime(date)
+            time: this.formatTime(date),
+            typeDesc: this.formatTypeDesc(latestObs.W),
+            windSpeed: this.formatWindSpeed(latestObs.S),
+            windDirection: this.formatWindDirection(latestObs.D),
+            pressure: this.formatPressure(latestObs.P),
+            dewPoint: this.formatDewPoint(latestObs.Dp)
           })
       }
 
       // Return formatted json data
       return this.formattedObservations;
+  }
+
+  formatWindSpeed(speed): any {
+      var ftemp = "";
+      ftemp = speed + "mph";
+      return ftemp;
+  }
+
+  formatWindDirection(direction): any {
+      var fwdir = "";
+      fwdir = direction;
+      return fwdir;
+  }
+
+  formatPressure(pressure): any {
+      var fpressure = "";
+      fpressure = pressure + "mb";
+      return fpressure;
   }
 
   formatTime(date): any {
@@ -127,6 +161,87 @@ export class Data {
       return ftype;
   }
 
+  formatTypeDesc(type): any {
+      var ftypedesc = ""
+      switch (type) {
+        case "0":
+          ftypedesc =  "Clear";;
+          break
+        case "1":
+          ftypedesc =  "Sunny";
+          break;
+        case "2","3":
+          ftypedesc =  "Partly cloudy";
+          break;
+        case "5":
+          ftypedesc =  "Mist";
+          break;
+        case "6":
+          ftypedesc =  "Fog";
+          break;
+        case "7":
+          ftypedesc =  "Cloudy";
+          break;
+        case "8":
+          ftypedesc =  "Overcast";
+          break;
+        case "9","10":
+          ftypedesc =  "Light rain shower";
+          break;
+        case "11":
+          ftypedesc =  "Drizzle";
+          break;
+        case "12":
+          ftypedesc =  "Light rain";
+          break;
+        case "13","14":
+          ftypedesc =  "Heavy rain shower";
+          break;
+        case "15":
+          ftypedesc =  "Heavy rain";
+          break;
+        case "16","17":
+          ftypedesc =  "Sleet shower";
+          break;
+        case "18":
+          ftypedesc =  "Sleet";
+          break;
+        case "19","20":
+          ftypedesc =  "Hail shower";
+          break;
+        case "21":
+          ftypedesc =  "Sleet";
+          break;
+        case "22","23":
+          ftypedesc =  "Light snow shower";
+          break;
+        case "24":
+          ftypedesc =  "Light snow";
+          break;
+        case "25","26":
+          ftypedesc =  "Heavy snow shower";
+          break;
+        case "27":
+          ftypedesc =  "Heavy snow";
+          break;
+        case "28","29":
+          ftypedesc =  "Thunder shower";
+          break;
+        case "30":
+          ftypedesc =  "Thunder";
+          break;
+        default:
+          ftypedesc =  "";
+      }
+      return ftypedesc;
+  }
+
+  formatDewPoint(dptemp): any {
+      var fdtemp = "";
+      fdtemp = "Dew point " + dptemp + "C"
+      return fdtemp;
+  }
+
   getLastUpdateTime() {
     return this.storage.get('lastupdated');  
   }
@@ -137,22 +252,13 @@ export class Data {
   }
 
   formatLastUpdated(date) {
-    var ret = '';
     var updated = new Date(date);
-    var current = new Date();
-    var diffMs = Math.abs((current.getMinutes() - updated.getMinutes())); // minutes since last update
-
-    switch (diffMs) { // Use the minutes value to format our string
-      case 0:
-        ret = "Updated just now";
-        break;
-      case 1:
-        ret = "Updated one minute ago";
-        break;
-      default:
-        ret = "Updated " + diffMs.toString() + " minutes ago";
+    var updatedMins = updated.getMinutes().toString();
+    if (updated.getMinutes()<10) {
+      updatedMins = '0' + updatedMins;
     }
-    return "Updated " + updated.getHours() + ":" + updated.getMinutes() + "" ;
+    
+    return "Updated " + updated.getHours() + ":" + updatedMins + "" ;
   }
 
 }
