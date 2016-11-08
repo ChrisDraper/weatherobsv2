@@ -14,13 +14,12 @@
         <img src="assets/images/{{latestObs.type}}">
       </ion-thumbnail>
       <h2>{{latestObs.temp}}</h2>
-      <p>{{latestObs.typeDesc}}
-        <br />{{latestObs.windSpeed}} {{latestObs.windDirection}}
+      <p><span class="type-desc">{{latestObs.typeDesc}}</span>
         <br />{{latestObs.pressure}}
         <br />{{latestObs.dewPoint}}
         </p>
-      <em class="obs-time">{{latestObs.time}}</em>
-      <em>{{lastUpdated}}</em>
+      <em class="obs-time">{{lastUpdated}}</em>
+      <span class="wind">{{latestObs.windSpeed}} {{latestObs.windDirection}}</span>
     </ion-card-content>
   </ion-card>
 
@@ -28,13 +27,14 @@
   <ion-item  *ngFor="let observation of observations">
     <ion-thumbnail item-left>
       <img src="assets/images/{{observation.type}}">
+      
     </ion-thumbnail>
     <h2>{{observation.temp}}</h2>
-    <p>{{observation.typeDesc}}
-        <br />{{observation.windSpeed}} {{observation.windDirection}}
+    <p><span class="type-desc">{{observation.typeDesc}}</span>
         <br />{{observation.pressure}}
         <br />{{observation.dewPoint}}
         </p>
+    <span class="wind">{{observation.windSpeed}} {{observation.windDirection}}</span>
     <em class="obs-time">{{observation.time}}</em>
   </ion-item>
 </ion-list>

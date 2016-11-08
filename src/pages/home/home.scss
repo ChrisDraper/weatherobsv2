@@ -77,7 +77,7 @@ page-home {
         color: #fff;
         font-size: 11px;
         position: absolute;
-        bottom: 5px;
+        bottom: 13px;
         right: 10px;
     }
 
@@ -86,15 +86,29 @@ page-home {
         left:10px;
     }
 
+    ion-card .wind {
+        position: absolute;
+        top: 38px;
+        right: 10px;
+        color:#fff;
+    }
+
+    ion-card .type-desc {
+        font-size:1.3em;
+        display:block;
+    }
+
     ion-item {
         position:relative;
         background: rgba(1,1,1,0.4) !important;
         color:#fff !important;
         border-top:none !important;
+        border-bottom:1px solid #ccc;
     }
 
     ion-item ion-thumbnail[item-left] {
         background:transparent !important;
+        max-height:50px;
     }
 
     ion-item .item-inner {
@@ -102,7 +116,7 @@ page-home {
     }
 
     ion-item h2 {
-        font-size:2rem !important;
+        font-size:3rem !important;
     }
 
     ion-item p {
@@ -112,9 +126,20 @@ page-home {
 
     ion-item em {
         position:absolute;
-        bottom: 5px;
+        bottom: 15px;
         left: 10px;
         font-size:1.3rem !important;
+    }
+
+    ion-item .type-desc {
+        font-size:1.3em;
+    }
+
+    ion-item .wind {
+        position: absolute;
+        top: 21px;
+        right: 10px;
+        color:#fff;
     }
 }
 
