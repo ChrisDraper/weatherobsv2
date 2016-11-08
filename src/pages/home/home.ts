@@ -100,5 +100,32 @@ export class HomePage {
     
   }
 
+  sideMenu() {
+      let alert = this.alertCtrl.create({
+        title: 'Show side menu',
+        subTitle: 'We\'ll show the side menu when ready.',
+        buttons: ['OK, I\'LL TRY AGAIN SOON']
+      });
+      alert.present();
+  }
+
+  searchLocation() {
+      let alert = this.alertCtrl.create({
+        title: 'Get searching',
+        subTitle: 'Let\'s search around a bit.',
+        buttons: ['SOUNDS GOOD']
+      });
+      alert.present();
+  }
+
+  findLocation() {
+      let alert = this.alertCtrl.create({
+        title: 'Let\'s get GEO!!',
+        subTitle: 'Where on earth are you?',
+        buttons: ['OVER HERE']
+      });
+      alert.present();
+  }
+
 }
 
