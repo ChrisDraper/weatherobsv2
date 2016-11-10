@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="com.csdraper.weatherobsv2" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>weatherobsV2</name>
+  <name>Minus</name>
   <description>UK Weather Observations App</description>
   <author email="csdraper@gmail.com" href="https://twitter.com/drapes247">Chris Draper</author>
   <content src="index.html"/>
@@ -41,10 +41,12 @@
   <preference name="DisallowOverscroll" value="true"/>
   <preference name="android-minSdkVersion" value="16"/>
   <preference name="BackupWebStorage" value="none"/>
-  <preference name="SplashScreenDelay" value="2000"/>
-  <preference name="FadeSplashScreenDuration" value="4000"/>
+  <preference name="SplashScreenDelay" value="6000"/>
+  <preference name="AutoHideSplashScreen" value="false" />
   <preference name="SplashScreenBackgroundColor" value="0xFFFFFFFF"/>
   <preference name="SplashScreen" value="screen"/>
+  <preference name="SplashMaintainAspectRatio" value="true" />
+  <preference name="ShowSplashScreenSpinner" value="false" />
   <feature name="StatusBar">
     <param name="ios-package" onload="true" value="CDVStatusBar"/>
   </feature>
