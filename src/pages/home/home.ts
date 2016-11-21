@@ -11,24 +11,32 @@ export class HomePage {
 	observations: any;
   latestObs: any;
   lastUpdated: any;
+  location: any;
 
   
-  cityid: string;
+  locationid: string;
   appid: string;
 
 	constructor(public navCtrl: NavController, public dataService: Data, private http: Http, public alertCtrl: AlertController) {
-  
-    // Latest observation
-    //this.displayLastUpdateTime();
-    this.latestObs = this.dataService.getLatestObservation();
-    this.cityid = '3740'; // Lynehams
+    
     this.appid = 'c52882f0-643b-4821-ad25-f2b8862ce289';
-    this.refreshObs();
+    //this.dataService.saveLocation('3740'); // Lyneham
+    //this.dataService.saveLocation('3081'); // Braemar
+    //this.dataService.saveLocation('3047'); // Tulloch Bridge
+    //this.dataService.saveLocation('3658'); // Benson
+    this.dataService.getLocation().then((result) => {
+      if(result){
+        console.log('locationid: ' + result);
+        this.locationid = result; 
+        this.location = {id : this.locationid};
+       } else {
+         console.log('no result default: 3740' );
+         this.locationid = '3740';
+       }
 
-    // Resume app listener - buggy? May revisit when using local storage
-    //document.addEventListener('resume', () => {
-    //  this.resumeObs();
-    //});
+     this.refreshObs();
+      // Latest observation   
+    });
 
 	}
 
@@ -42,7 +50,7 @@ export class HomePage {
   }
 
   refreshObs() {
-     this.http.get('http://datapoint.metoffice.gov.uk/public/data/val/wxobs/all/json/' + this.cityid + '?res=hourly&key=' + this.appid)
+     this.http.get('http://datapoint.metoffice.gov.uk/public/data/val/wxobs/all/json/' + this.locationid + '?res=hourly&key=' + this.appid)
               .map(res => res.json())
               .subscribe(
                   data => {
@@ -59,8 +67,7 @@ export class HomePage {
   }
 
   pullRefresh(refresher) {
-    console.log('pullRefreshObs', refresher);
-     this.http.get('http://datapoint.metoffice.gov.uk/public/data/val/wxobs/all/json/' + this.cityid + '?res=hourly&key=' + this.appid)
+     this.http.get('http://datapoint.metoffice.gov.uk/public/data/val/wxobs/all/json/' + this.locationid + '?res=hourly&key=' + this.appid)
               .map(res => res.json())
               .subscribe(
                   data => {
@@ -101,30 +108,30 @@ export class HomePage {
   }
 
   sideMenu() {
+    this.dataService.saveLocation('3658');
+    this.locationid = '3658';
       let alert = this.alertCtrl.create({
-        title: 'Show side menu',
-        subTitle: 'We\'ll show the side menu when ready.',
-        buttons: ['OK, I\'LL TRY AGAIN SOON']
+        title: 'Benson',
+        subTitle: 'Station set to Benson',
+        buttons: ['RIGHTO']
       });
       alert.present();
+      this.refreshObs();
   }
 
   searchLocation() {
+      this.dataService.saveLocation('3047');
+      this.locationid = '3047';
       let alert = this.alertCtrl.create({
-        title: 'Get searching',
-        subTitle: 'Let\'s search around a bit.',
-        buttons: ['SOUNDS GOOD']
+        title: 'Tulloch Bridge',
+        subTitle: 'Station set to Tulloch Bridge',
+        buttons: ['WE\'RE DOOMED']
       });
       alert.present();
+      this.refreshObs();
   }
 
   findLocation() {
-      let alert = this.alertCtrl.create({
-        title: 'Let\'s get GEO!!',
-        subTitle: 'Where on earth are you?',
-        buttons: ['OVER HERE']
-      });
-      alert.present();
   }
 
 }

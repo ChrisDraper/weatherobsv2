@@ -5,7 +5,7 @@
         <ion-icon name='menu'></ion-icon>
       </button>
     </ion-buttons>
-    <ion-title>Lyneham</ion-title>
+    <ion-title *ngIf="latestObs">{{latestObs.station}}</ion-title>
     <ion-buttons end>
     <button ion-button icon-only (click)="searchLocation()">
       <ion-icon name='search'></ion-icon>
@@ -18,7 +18,7 @@
   <ion-refresher (ionRefresh)="pullRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <ion-card class="top-card">
+  <ion-card class="top-card" *ngIf="latestObs">
     <ion-card-content>
       <ion-thumbnail item-left>
         <img src="assets/images/{{latestObs.type}}">
@@ -28,12 +28,12 @@
         <br />{{latestObs.pressure}}
         <br />{{latestObs.dewPoint}}
         </p>
-      <em class="obs-time">{{lastUpdated}}</em>
+      <em class="obs-time" *ngIf="lastUpdated">{{lastUpdated}}</em>
       <span class="wind">{{latestObs.windSpeed}} {{latestObs.windDirection}}</span>
     </ion-card-content>
   </ion-card>
 
-  <ion-list>
+  <ion-list  *ngIf="observations">
   <ion-item  *ngFor="let observation of observations">
     <ion-thumbnail item-left>
       <img src="assets/images/{{observation.type}}">

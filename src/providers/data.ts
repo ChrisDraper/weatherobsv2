@@ -13,20 +13,22 @@ import 'rxjs/add/operator/map';
 export class Data {
 
   data: any;
-  cityid: string;
-  appid: string;
   formattedData: any;
   formattedObservations: any;
 
   constructor(private http: Http, public storage: Storage) {}
 
-  getLatestObservation(): any {
-      //Return a default set of results;
-      return {temp: "", time: "", type: "ring.svg"};
+
+  getLocation(): Promise<any> {
+      return this.storage.get('locationid'); 
+  }
+
+  saveLocation(locationid): void {
+    this.storage.set('locationid', locationid);
   }
 
  formatObservation(data): any {
-      this.formattedData = {time: '', temp: '', type: '', typeDesc: '', windSpeed: '', windDirection: '', pressure: '', dewPoint: ''};
+      this.formattedData = {time: '', temp: '', type: '', typeDesc: '', windSpeed: '', windDirection: '', pressure: '', dewPoint: '', station: ''};
       // Time
       var date = new Date(data.dataDate);
       this.formattedData.time = this.formatTime(date);
@@ -46,6 +48,8 @@ export class Data {
       this.formattedData.pressure = this.formatPressure(latestData.P); 
       // Dew point
       this.formattedData.dewPoint = this.formatDewPoint(latestData.Dp);
+      // Station 
+      this.formattedData.station = this.toTitleCase(data.Location.name);
 
       // Return formatted json data
       return this.formattedData;
@@ -259,6 +263,11 @@ export class Data {
     }
     
     return "Updated " + updated.getHours() + ":" + updatedMins + "" ;
+  }
+
+  toTitleCase(str)
+  {
+      return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
   }
 
 }
