@@ -7,9 +7,12 @@
     </ion-buttons>
     <ion-title *ngIf="latestObs">{{latestObs.station}}</ion-title>
     <ion-buttons end>
-    <button ion-button icon-only (click)="searchLocation()">
-      <ion-icon name='search'></ion-icon>
-    </button>
+      <button ion-button icon-only (click)="showFavourites()">
+        <ion-icon name='star'></ion-icon>
+      </button><!--
+       --><button ion-button icon-only (click)="searchLocation()">
+        <ion-icon name='search'></ion-icon>
+      </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>

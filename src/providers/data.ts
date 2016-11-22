@@ -28,53 +28,56 @@ export class Data {
   }
 
  formatObservation(data): any {
-      this.formattedData = {time: '', temp: '', type: '', typeDesc: '', windSpeed: '', windDirection: '', pressure: '', dewPoint: '', station: ''};
-      // Time
-      var date = new Date(data.dataDate);
-      this.formattedData.time = this.formatTime(date);
-      // Get latest data record
-      var latestData = data.Location.Period.slice(-1)[0].Rep.slice(-1)[0];
-      // Temperature
-     this.formattedData.temp =  this.formatTemp(latestData.T);
-      // Weather icons
-      this.formattedData.type = this.formatType(latestData.W);
-      // Weather type description
-      this.formattedData.typeDesc = this.formatTypeDesc(latestData.W);
-      // Wind speed
-      this.formattedData.windSpeed = this.formatWindSpeed(latestData.S); 
-      // Wind direction
-      this.formattedData.windDirection = this.formatWindDirection(latestData.D); 
-      // Pressure
-      this.formattedData.pressure = this.formatPressure(latestData.P); 
-      // Dew point
-      this.formattedData.dewPoint = this.formatDewPoint(latestData.Dp);
-      // Station 
-      this.formattedData.station = this.toTitleCase(data.Location.name);
+      this.formattedData = {};
+      if (data.Location) { // Have data
+        // Time
+        var date = new Date(data.dataDate);
+        this.formattedData.time = this.formatTime(date);
 
+        // Get latest data record
+        var latestData = data.Location.Period.slice(-1)[0].Rep.slice(-1)[0];
+        // Temperature
+      this.formattedData.temp =  this.formatTemp(latestData.T);
+        // Weather icons
+        this.formattedData.type = this.formatType(latestData.W);
+        // Weather type description
+        this.formattedData.typeDesc = this.formatTypeDesc(latestData.W);
+        // Wind speed
+        this.formattedData.windSpeed = this.formatWindSpeed(latestData.S); 
+        // Wind direction
+        this.formattedData.windDirection = this.formatWindDirection(latestData.D); 
+        // Pressure
+        this.formattedData.pressure = this.formatPressure(latestData.P); 
+        // Dew point
+        this.formattedData.dewPoint = this.formatDewPoint(latestData.Dp);
+        // Station 
+        this.formattedData.station = this.toTitleCase(data.Location.name);
+      } 
       // Return formatted json data
       return this.formattedData;
  }
 
   formatRecentObservations(data): any {
       this.formattedObservations = [];
-      
-      // Get second latest data record
-      //typeDesc: '', windSpeed: '', windDirection: '', pressure: '', dewPoint: ''
-      var step;
-      for (step = -2; step > -14; step--) {
-          var latestObs = data.Location.Period.slice(-1)[0].Rep.slice(step)[0];
-          var date = new Date(data.dataDate);
-          date.setHours(date.getHours() - ((step*-1)-1));
-          this.formattedObservations.push({
-            type: this.formatType(latestObs.W),
-            temp: this.formatTemp(latestObs.T),
-            time: this.formatTime(date),
-            typeDesc: this.formatTypeDesc(latestObs.W),
-            windSpeed: this.formatWindSpeed(latestObs.S),
-            windDirection: this.formatWindDirection(latestObs.D),
-            pressure: this.formatPressure(latestObs.P),
-            dewPoint: this.formatDewPoint(latestObs.Dp)
-          })
+      if (data.Location) {
+        // Get second latest data record
+        //typeDesc: '', windSpeed: '', windDirection: '', pressure: '', dewPoint: ''
+        var step;
+        for (step = -2; step > -14; step--) {
+            var latestObs = data.Location.Period.slice(-1)[0].Rep.slice(step)[0];
+            var date = new Date(data.dataDate);
+            date.setHours(date.getHours() - ((step*-1)-1));
+            this.formattedObservations.push({
+              type: this.formatType(latestObs.W),
+              temp: this.formatTemp(latestObs.T),
+              time: this.formatTime(date),
+              typeDesc: this.formatTypeDesc(latestObs.W),
+              windSpeed: this.formatWindSpeed(latestObs.S),
+              windDirection: this.formatWindDirection(latestObs.D),
+              pressure: this.formatPressure(latestObs.P),
+              dewPoint: this.formatDewPoint(latestObs.Dp)
+            })
+        }
       }
 
       // Return formatted json data

@@ -4,11 +4,13 @@ import { MyApp } from './app.component';
 import { Data } from '../providers/data';
 import { Storage } from '@ionic/storage';
 import { HomePage } from '../pages/home/home';
+import { Search } from '../pages/search/search';
 
 @NgModule({
   declarations: [
     MyApp,
-    HomePage
+    HomePage,
+    Search
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -16,7 +18,8 @@ import { HomePage } from '../pages/home/home';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage
+    HomePage,
+    Search
   ],
   providers: [
     [Data, Storage]

@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController } from 'ionic-angular';
+import { NavController, AlertController, ToastController } from 'ionic-angular';
 import { Http } from '@angular/http';
 import {Data} from '../../providers/data';
+import { Search } from '../../pages/search/search';
 
 @Component({
   selector: 'page-home',
@@ -10,6 +11,7 @@ import {Data} from '../../providers/data';
 export class HomePage {
 	observations: any;
   latestObs: any;
+  obsVerify: any;
   lastUpdated: any;
   location: any;
 
@@ -17,7 +19,7 @@ export class HomePage {
   locationid: string;
   appid: string;
 
-	constructor(public navCtrl: NavController, public dataService: Data, private http: Http, public alertCtrl: AlertController) {
+	constructor(public navCtrl: NavController, public dataService: Data, private http: Http, public alertCtrl: AlertController, private toastCtrl: ToastController) {
     
     this.appid = 'c52882f0-643b-4821-ad25-f2b8862ce289';
     //this.dataService.saveLocation('3740'); // Lyneham
@@ -40,29 +42,29 @@ export class HomePage {
 
 	}
 
-  showConectionErrAlert() {
-      let alert = this.alertCtrl.create({
-        title: 'Oh bother!!',
-        subTitle: 'Connection to latest data is unavailable.',
-        buttons: ['FAIR ENOUGH']
-      });
-      alert.present();
-  }
-
   refreshObs() {
+     this.presentToast('Fetching weather report...', 'top');
      this.http.get('http://datapoint.metoffice.gov.uk/public/data/val/wxobs/all/json/' + this.locationid + '?res=hourly&key=' + this.appid)
               .map(res => res.json())
               .subscribe(
                   data => {
                     this.dataService.saveLastUpdateTime();
                     setTimeout(() => {
-                      this.latestObs = this.dataService.formatObservation(data.SiteRep.DV);
-                      this.observations = this.dataService.formatRecentObservations(data.SiteRep.DV);
-                      this.displayLastUpdateTime();
+                      this.obsVerify = this.dataService.formatObservation(data.SiteRep.DV);
+                      if (this.obsVerify.station){
+                        this.latestObs = this.obsVerify;
+                        this.observations = this.dataService.formatRecentObservations(data.SiteRep.DV);
+                        this.displayLastUpdateTime();
+                      } else {
+                        this.observations = [];
+                        this.latestObs = null;
+                        this.presentToast('No data was returned from station (ID: ' + this.locationid + ')','middle');
+                      }
                     }, 1500);
                   },
                   error => {
-                      this.showConectionErrAlert();
+                    console.log(error);
+                      this.presentToast('No connection found', 'middle');
                   });
   }
 
@@ -76,12 +78,21 @@ export class HomePage {
                         refresher.complete();
                         this.latestObs = this.dataService.formatObservation(data.SiteRep.DV);
                         this.observations = this.dataService.formatRecentObservations(data.SiteRep.DV);
-                        this.displayLastUpdateTime();
+                        this.displayLastUpdateTime(); this.obsVerify = this.dataService.formatObservation(data.SiteRep.DV);
+                        if (this.obsVerify.station){
+                          this.latestObs = this.obsVerify;
+                          this.observations = this.dataService.formatRecentObservations(data.SiteRep.DV);
+                          this.displayLastUpdateTime();
+                        } else {
+                          this.presentToast('No data was returned from station (ID: ' + this.locationid + ')','middle');
+                          this.observations = [];
+                          this.latestObs = null;
+                        }
                     }, 2000);
                   },
                   error => {
                     setTimeout(() => {
-                        this.showConectionErrAlert();
+                        this.presentToast('No connection found', 'middle');
                         refresher.complete();
                     }, 2000);
                   });
@@ -108,31 +119,31 @@ export class HomePage {
   }
 
   sideMenu() {
-    this.dataService.saveLocation('3658');
-    this.locationid = '3658';
-      let alert = this.alertCtrl.create({
-        title: 'Benson',
-        subTitle: 'Station set to Benson',
-        buttons: ['RIGHTO']
-      });
-      alert.present();
-      this.refreshObs();
+    this.dataService.saveLocation('3740');
+    this.locationid = '3740';
+    this.refreshObs();
+  }
+
+  showFavourites() {
+    this.dataService.saveLocation('3047');
+    this.locationid = '3047';
+    this.refreshObs();
   }
 
   searchLocation() {
-      this.dataService.saveLocation('3047');
-      this.locationid = '3047';
-      let alert = this.alertCtrl.create({
-        title: 'Tulloch Bridge',
-        subTitle: 'Station set to Tulloch Bridge',
-        buttons: ['WE\'RE DOOMED']
-      });
-      alert.present();
-      this.refreshObs();
+     this.navCtrl.push(Search, {});
   }
 
-  findLocation() {
-  }
+ 
+
+  presentToast(message, position) {
+    let toast = this.toastCtrl.create({
+        message: message,
+        duration: 2000,
+        position: position
+    });
+    toast.present();
+  } 
 
 }
 
