@@ -89,7 +89,7 @@ export class Data {
               }
             }
             var date = new Date(data.dataDate);
-            date.setHours(date.getHours() - ((step*-1)-1));
+            date.setHours(date.getHours() - ((step*-1)-2));
             this.formattedObservations.push({
               type: this.formatType(latestObs.W),
               temp: this.formatTemp(latestObs.T),
@@ -105,6 +105,23 @@ export class Data {
         if (data.Location.Period[0]) {
           hoursCount = data.Location.Period.slice(-2)[0].Rep.length;
           console.log('hoursCount :  '  + hoursCount);
+          for (step = -1; step > (-hoursCount); step--) {
+              latestObs = [];
+              latestObs = data.Location.Period.slice(-2)[0].Rep.slice(step)[0];
+              var date = new Date(data.dataDate);
+              console.log(step);
+              date.setHours(24 + step);
+              this.formattedObservations.push({
+                type: this.formatType(latestObs.W),
+                temp: this.formatTemp(latestObs.T),
+                time: this.formatTime(date),
+                typeDesc: this.formatTypeDesc(latestObs.W),
+                windSpeed: this.formatWindSpeed(latestObs.S),
+                windDirection: this.formatWindDirection(latestObs.D),
+                pressure: this.formatPressure(latestObs.P),
+                dewPoint: this.formatDewPoint(latestObs.Dp)
+              })
+          }
         }
 
       }
