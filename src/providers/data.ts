@@ -89,7 +89,7 @@ export class Data {
               }
             }
             var date = new Date(data.dataDate);
-            date.setHours(date.getHours() - ((step*-1)-2));
+            date.setHours(date.getHours() - ((step*-1)));
             this.formattedObservations.push({
               type: this.formatType(latestObs.W),
               temp: this.formatTemp(latestObs.T),
@@ -103,7 +103,7 @@ export class Data {
         }
         // Check for previous day data
         if (data.Location.Period[0]) {
-          hoursCount = data.Location.Period.slice(-2)[0].Rep.length;
+          hoursCount = data.Location.Period.slice(-2)[0].Rep.length+1;
           console.log('hoursCount :  '  + hoursCount);
           for (step = -1; step > (-hoursCount); step--) {
               latestObs = [];
