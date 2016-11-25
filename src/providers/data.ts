@@ -80,12 +80,12 @@ export class Data {
             if (data.Location.Period[0]) {
               if (data.Location.Period.slice(-1)[0].Rep.slice(step)[0]) {
                 latestObs = data.Location.Period.slice(-1)[0].Rep.slice(step)[0];
-                console.log(latestObs, step);
+                //console.log(latestObs, step);
               }
             } else {
               if (data.Location.Period.Rep.slice(step)[0]) {
                 latestObs = data.Location.Period.Rep.slice(step)[0];
-                console.log(latestObs, step);
+                //console.log(latestObs, step);
               }
             }
             var date = new Date(data.dataDate);
@@ -101,6 +101,12 @@ export class Data {
               dewPoint: this.formatDewPoint(latestObs.Dp)
             })
         }
+        // Check for previous day data
+        if (data.Location.Period[0]) {
+          hoursCount = data.Location.Period.slice(-2)[0].Rep.length;
+          console.log('hoursCount :  '  + hoursCount);
+        }
+
       }
 
       // Return formatted json data
