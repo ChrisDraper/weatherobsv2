@@ -34,6 +34,7 @@ export class HomePage {
        } else {
          console.log('no result default: 3740' );
          this.locationid = '3740';
+        this.location = {id : this.locationid};
        }
 
      this.refreshObs();

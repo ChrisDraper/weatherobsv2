@@ -30,14 +30,21 @@ export class Data {
  formatObservation(data): any {
       this.formattedData = {};
       if (data.Location) { // Have data
+        console.log(data.Location.Period);  
+        //console.log(data.Location.Period.slice(-1));
         // Time
         var date = new Date(data.dataDate);
         this.formattedData.time = this.formatTime(date);
 
         // Get latest data record
-        var latestData = data.Location.Period.slice(-1)[0].Rep.slice(-1)[0];
+        if (data.Location.Period[0]) {
+          var latestData = data.Location.Period.slice(-1)[0].Rep.slice(-1)[0];
+        } else {
+          var latestData = data.Location.Period.Rep.slice(-1)[0];
+        }
+        
         // Temperature
-      this.formattedData.temp =  this.formatTemp(latestData.T);
+        this.formattedData.temp =  this.formatTemp(latestData.T);
         // Weather icons
         this.formattedData.type = this.formatType(latestData.W);
         // Weather type description
@@ -60,11 +67,27 @@ export class Data {
   formatRecentObservations(data): any {
       this.formattedObservations = [];
       if (data.Location) {
-        // Get second latest data record
-        //typeDesc: '', windSpeed: '', windDirection: '', pressure: '', dewPoint: ''
         var step;
-        for (step = -2; step > -14; step--) {
-            var latestObs = data.Location.Period.slice(-1)[0].Rep.slice(step)[0];
+        var latestObs;
+        var hoursCount;
+        if (data.Location.Period[0]) {
+          hoursCount = data.Location.Period.slice(-1)[0].Rep.length;
+        } else {
+          hoursCount = data.Location.Period.Rep.length; 
+        }
+        for (step = -2; step > (-1-hoursCount); step--) {
+            latestObs = [];
+            if (data.Location.Period[0]) {
+              if (data.Location.Period.slice(-1)[0].Rep.slice(step)[0]) {
+                latestObs = data.Location.Period.slice(-1)[0].Rep.slice(step)[0];
+                console.log(latestObs, step);
+              }
+            } else {
+              if (data.Location.Period.Rep.slice(step)[0]) {
+                latestObs = data.Location.Period.Rep.slice(step)[0];
+                console.log(latestObs, step);
+              }
+            }
             var date = new Date(data.dataDate);
             date.setHours(date.getHours() - ((step*-1)-1));
             this.formattedObservations.push({
@@ -106,12 +129,17 @@ export class Data {
       var ftime = "";
       if (date.getHours()> 11) {
           if (date.getHours()==12) {
-            ftime = '12pm';
+            ftime = 'Midday';
           } else {
             ftime = date.getHours()-12 + 'pm';
           }
       } else {
-          ftime = date.getHours() + 'am';
+          if (date.getHours()==0) {
+            ftime = 'Midnight';
+          } else {
+            ftime = date.getHours() + 'am';
+          }
+          
       }
       return ftime;
   }
