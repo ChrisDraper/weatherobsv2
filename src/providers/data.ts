@@ -30,7 +30,7 @@ export class Data {
  formatObservation(data): any {
       this.formattedData = {};
       if (data.Location) { // Have data
-        console.log(data.Location.Period);  
+        //console.log(data.Location.Period);  
         //console.log(data.Location.Period.slice(-1));
         // Time
         var date = new Date(data.dataDate);
@@ -104,12 +104,12 @@ export class Data {
         // Check for previous day data
         if (data.Location.Period[0]) {
           hoursCount = data.Location.Period.slice(-2)[0].Rep.length+1;
-          console.log('hoursCount :  '  + hoursCount);
+          //console.log('hoursCount :  '  + hoursCount);
           for (step = -1; step > (-hoursCount); step--) {
               latestObs = [];
               latestObs = data.Location.Period.slice(-2)[0].Rep.slice(step)[0];
               var date = new Date(data.dataDate);
-              console.log(step);
+              //console.log(step);
               date.setHours(24 + step);
               this.formattedObservations.push({
                 type: this.formatType(latestObs.W),

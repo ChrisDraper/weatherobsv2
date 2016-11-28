@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController, ToastController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
 import { Http } from '@angular/http';
 import {Data} from '../../providers/data';
 import { Search } from '../../pages/search/search';
@@ -18,30 +18,49 @@ export class HomePage {
   
   locationid: string;
   appid: string;
+  testloc: any;
 
-	constructor(public navCtrl: NavController, public dataService: Data, private http: Http, public alertCtrl: AlertController, private toastCtrl: ToastController) {
+	constructor(public navCtrl: NavController, public navParams: NavParams, public dataService: Data, private http: Http, public alertCtrl: AlertController, private toastCtrl: ToastController) {
     
     this.appid = 'c52882f0-643b-4821-ad25-f2b8862ce289';
+    this.testloc = {title: '' , locationid: ''};
     //this.dataService.saveLocation('3740'); // Lyneham
     //this.dataService.saveLocation('3081'); // Braemar
     //this.dataService.saveLocation('3047'); // Tulloch Bridge
     //this.dataService.saveLocation('3658'); // Benson
-    this.dataService.getLocation().then((result) => {
-      if(result){
-        console.log('locationid: ' + result);
-        this.locationid = result; 
-        this.location = {id : this.locationid};
-       } else {
-         console.log('no result default: 3740' );
-         this.locationid = '3740';
-        this.location = {id : this.locationid};
-       }
+    if (this.navParams.get('location')){
+      console.log('Constructor: ' + this.navParams.get('location'));
+      this.testloc = this.navParams.get('location');
+      this.locationid = this.testloc.locationid;
+      this.refreshObs();
+    } else {    
+      this.dataService.getLocation().then((result) => {
+          if(result){
+            //console.log('locationid: ' + result);
+            this.locationid = result; 
+            this.location = {id : this.locationid};
+          } else {
+            //console.log('no result default: 3740' );
+            this.locationid = '3740';
+            this.location = {id : this.locationid};
+          }
 
-     this.refreshObs();
-      // Latest observation   
-    });
+        this.refreshObs();
+          // Latest observation   
+        });
+
+    }
+
+
 
 	}
+
+  ionViewDidLoad() {
+      //this.testloc = this.navParams.get('location');
+      //this.locationid = this.testloc.locationid;
+      //this.refreshObs();
+      //console.log(this.navParams.get('location'));
+  }
 
   refreshObs() {
      this.presentToast('Fetching weather report...', 'top');

@@ -19,3 +19,11 @@
 ion-header .bar-button {
     color:#fff !important;
 }
+
+// Side menu
+.menu-inner > ion-header, 
+.menu-inner > ion-content, 
+.menu-inner > ion-footer {
+    background-image: none;
+    background-color: rgba(1,1,1,0.4) !important;
+}
