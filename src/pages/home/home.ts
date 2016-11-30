@@ -18,35 +18,27 @@ export class HomePage {
   
   locationid: string;
   appid: string;
-  testloc: any;
 
 	constructor(public navCtrl: NavController, public navParams: NavParams, public dataService: Data, private http: Http, public alertCtrl: AlertController, private toastCtrl: ToastController) {
     
     this.appid = 'c52882f0-643b-4821-ad25-f2b8862ce289';
-    this.testloc = {title: '' , locationid: ''};
-    //this.dataService.saveLocation('3740'); // Lyneham
-    //this.dataService.saveLocation('3081'); // Braemar
-    //this.dataService.saveLocation('3047'); // Tulloch Bridge
-    //this.dataService.saveLocation('3658'); // Benson
     if (this.navParams.get('location')){
-      console.log('Constructor: ' + this.navParams.get('location'));
-      this.testloc = this.navParams.get('location');
-      this.locationid = this.testloc.locationid;
+      console.log('Location load: ' + this.navParams.get('location').locationid);
+      this.locationid = this.navParams.get('location').locationid;
+      this.dataService.saveLocation(this.locationid);
       this.refreshObs();
     } else {    
       this.dataService.getLocation().then((result) => {
           if(result){
-            //console.log('locationid: ' + result);
+            console.log('Data storage load: ' + result);
             this.locationid = result; 
-            this.location = {id : this.locationid};
+            this.dataService.saveLocation(this.locationid);
+            this.refreshObs();
           } else {
-            //console.log('no result default: 3740' );
-            this.locationid = '3740';
-            this.location = {id : this.locationid};
-          }
-
-        this.refreshObs();
-          // Latest observation   
+            console.log('Send to search, no location');
+            this.searchLocation();
+            // Welcome page?
+          }  
         });
 
     }

@@ -89,7 +89,7 @@ export class Data {
               }
             }
             var date = new Date(data.dataDate);
-            date.setHours(date.getHours() - ((step*-1)));
+            date.setHours(date.getHours() - ((step*-1)-1));
             this.formattedObservations.push({
               type: this.formatType(latestObs.W),
               temp: this.formatTemp(latestObs.T),
