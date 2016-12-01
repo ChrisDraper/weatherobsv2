@@ -15,17 +15,17 @@ export class Data {
   data: any;
   formattedData: any;
   formattedObservations: any;
+  locationsList: any;
 
-  constructor(private http: Http, public storage: Storage) {}
-
-
-  getLocation(): Promise<any> {
-      return this.storage.get('locationid'); 
+  constructor(private http: Http, public storage: Storage) {
+      this.locationsList = [
+              { title: 'Lyneham', locationid: '3740' },
+              { title: 'Tulloch Bridge', locationid: '3047' },
+              { title: 'Benson', locationid: '3658' }
+      ]
   }
 
-  saveLocation(locationid): void {
-    this.storage.set('locationid', locationid);
-  }
+
 
  formatObservation(data): any {
       this.formattedData = {};
@@ -328,6 +328,27 @@ export class Data {
   toTitleCase(str)
   {
       return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+  }
+  getLocation(): Promise<any> {
+      return this.storage.get('locationid'); 
+  }
+
+  saveLocation(locationid): void {
+    this.storage.set('locationid', locationid);
+  }
+
+  
+
+  getLocationsList(): Promise<any> {
+    return this.storage.get('locationList');
+  }
+
+  saveLocationList(locationList): void {
+    this.storage.set('locationList', locationList);
+  }
+
+  addLocationToList(title, locationid): void {
+
   }
 
 }

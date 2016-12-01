@@ -14,21 +14,30 @@ export class MyApp {
   rootPage = HomePage;
   locations: Array<{title: string, locationid: any}>;
 
-  constructor(platform: Platform) {
+  constructor(platform: Platform, dataService: Data) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       StatusBar.styleDefault();      
       Splashscreen.hide();
 
-        this.locations = [
-          { title: 'Lyneham', locationid: '3740' },
-          { title: 'Tulloch Bridge', locationid: '3047' },
-          { title: 'Benson', locationid: '3658' },
-          { title: 'Manston', locationid: '352522' },
-          { title: 'London Gatwick', locationid: '352414' },
-          { title: 'Glenanne', locationid: '3923' }
-        ];
+      dataService.getLocationsList().then((result) => {
+        if (result) {
+          console.log('Location list by data storage');
+          this.locations = result;  
+        } else {
+          console.log('Location list default, no local storage')
+          var templist = [
+              { title: 'Lyneham', locationid: '3740' },
+              { title: 'Tulloch Bridge', locationid: '3047' },
+              { title: 'Benson', locationid: '3658' },
+              { title: 'Glenanne', locationid: '3923' }
+            ];
+          this.locations = templist;
+          dataService.saveLocationList(templist);
+        }
+      });
+
     });
 
   }
