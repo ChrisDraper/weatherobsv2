@@ -52,7 +52,7 @@ export class Data {
         // Wind speed
         this.formattedData.windSpeed = this.formatWindSpeed(latestData.S); 
         // Wind direction
-        this.formattedData.windDirection = this.formatWindDirection(latestData.D); 
+        this.formattedData.windDirection = this.formatWindDirection(latestData.S, latestData.D); 
         // Pressure
         this.formattedData.pressure = this.formatPressure(latestData.P); 
         // Dew point
@@ -96,7 +96,7 @@ export class Data {
               time: this.formatTime(date),
               typeDesc: this.formatTypeDesc(latestObs.W),
               windSpeed: this.formatWindSpeed(latestObs.S),
-              windDirection: this.formatWindDirection(latestObs.D),
+              windDirection: this.formatWindDirection(latestObs.S, latestObs.D),
               pressure: this.formatPressure(latestObs.P),
               dewPoint: this.formatDewPoint(latestObs.Dp)
             })
@@ -117,7 +117,7 @@ export class Data {
                 time: this.formatTime(date),
                 typeDesc: this.formatTypeDesc(latestObs.W),
                 windSpeed: this.formatWindSpeed(latestObs.S),
-                windDirection: this.formatWindDirection(latestObs.D),
+                windDirection: this.formatWindDirection(latestObs.S, latestObs.D),
                 pressure: this.formatPressure(latestObs.P),
                 dewPoint: this.formatDewPoint(latestObs.Dp)
               })
@@ -131,14 +131,20 @@ export class Data {
   }
 
   formatWindSpeed(speed): any {
-      var ftemp = "";
-      ftemp = speed + "mph";
-      return ftemp;
+      var fspeed = "";
+      if (speed > 0){
+        fspeed = speed + "mph";
+      } else {
+        fspeed = "Calm"
+      }
+      return fspeed;
   }
 
-  formatWindDirection(direction): any {
+  formatWindDirection(speed, direction): any {
       var fwdir = "";
-      fwdir = direction;
+      if (speed > 0){
+        fwdir = direction;
+      }
       return fwdir;
   }
 
