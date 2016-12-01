@@ -35,9 +35,7 @@ export class HomePage {
             this.dataService.saveLocation(this.locationid);
             this.refreshObs();
           } else {
-            console.log('Send to search, no location');
-            this.searchLocation();
-            // Welcome page?
+            this.presentToast('Sorry no current location found', 'middle');
           }  
         });
 
