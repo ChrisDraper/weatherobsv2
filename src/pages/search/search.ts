@@ -24,8 +24,15 @@ export class Search {
   constructor(public navCtrl: NavController, public dataService: Data, public nav: Nav, public http: Http, private toastCtrl: ToastController) {
     
       this.appid = 'c52882f0-643b-4821-ad25-f2b8862ce289';
-      this.loadLocationsFromAPI();
-      //this.results = dataService.getSearchResults('Search');
+      this.dataService.getAPILocationsList().then((result) => {
+        if (result) {
+          console.log('Search Constructor: Location list from local storage');
+          this.locationList = result;
+        } else {
+          console.log('Search Constructor: Get location list from API');
+          this.loadLocationsFromAPI();
+        }
+      });
 
   }
 
@@ -40,7 +47,8 @@ export class Search {
               .subscribe(
                   data => {
                     this.locationList = this.dataService.formatLocationList(data);
-                    console.log(this.locationList);
+                    console.log('loadLocationsFromAPI: Save location list to local storage');
+                    this.dataService.saveAPILocationList(this.locationList);
                   },
                   error => {
                     console.log(error);
@@ -50,12 +58,10 @@ export class Search {
   }
 
   searchLocations(event) {
-      console.log(event.srcElement.value);  // Reset items back to all of the items
       this.results = this.locationList;
 
       // set q to the value of the searchbar
       var q = event.srcElement.value;
-
 
       // if the value is an empty string don't filter the items
       if (!q) {
@@ -70,8 +76,6 @@ export class Search {
           return false;
         }
       });
-
-      console.log(q, this.results.length);
 
 }
 

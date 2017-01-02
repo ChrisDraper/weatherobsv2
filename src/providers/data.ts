@@ -37,12 +37,17 @@ export class Data {
 
 formatLocationList(data): any {
       this.formattedData = [];
-      if (data.Locations) { // Have data
+      if (data.Locations.Location) { // Have data
               let locArray = data.Locations.Location;
               for (let l of locArray) {
                   this.formattedData.push({
                     title: l.name,
                     locationid: l.id,
+                    elevation: l.elevation,
+                    longitude: l.longitude,
+                    latitude: l.latitude,
+                    region: l.region,
+                    area: l.unitaryAuthArea
                   });
               }
       }
@@ -404,9 +409,14 @@ formatLocationList(data): any {
       return false;
   }
 
-// Search
-  getSearchResults(text) {
-    return this.defaultResults; // For now
+  getAPILocationsList(): Promise<any> {
+    return this.storage.get('locationListAPI');
   }
+
+  saveAPILocationList(locationList): void {
+    this.storage.set('locationListAPI', locationList);
+  }
+
+
 
 }
