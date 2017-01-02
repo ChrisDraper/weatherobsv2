@@ -3,6 +3,7 @@ import { NavController, NavParams, AlertController, ToastController } from 'ioni
 import { Http } from '@angular/http';
 import {Data} from '../../providers/data';
 import { Search } from '../../pages/search/search';
+import { Favourites } from '../../pages/favourites/favourites';
 
 @Component({
   selector: 'page-home',
@@ -18,6 +19,7 @@ export class HomePage {
   
   locationid: string;
   appid: string;
+
 
 	constructor(public navCtrl: NavController, public navParams: NavParams, public dataService: Data, private http: Http, public alertCtrl: AlertController, private toastCtrl: ToastController) {
     
@@ -35,15 +37,16 @@ export class HomePage {
             this.dataService.saveLocation(this.locationid);
             this.refreshObs();
           } else {
-            this.presentToast('Sorry no current location found', 'middle');
+            this.searchLocation();
           }  
         });
 
     }
 
 
-
 	}
+
+  
 
   ionViewDidLoad() {
       //this.testloc = this.navParams.get('location');
@@ -128,16 +131,10 @@ export class HomePage {
     
   }
 
-  sideMenu() {
-    this.dataService.saveLocation('3740');
-    this.locationid = '3740';
-    this.refreshObs();
-  }
+ 
 
   showFavourites() {
-    this.dataService.saveLocation('3047');
-    this.locationid = '3047';
-    this.refreshObs();
+     this.navCtrl.push(Favourites, {});
   }
 
   searchLocation() {

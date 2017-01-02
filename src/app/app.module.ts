@@ -5,12 +5,14 @@ import { Data } from '../providers/data';
 import { Storage } from '@ionic/storage';
 import { HomePage } from '../pages/home/home';
 import { Search } from '../pages/search/search';
+import { Favourites } from '../pages/favourites/favourites';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    Search
+    Search,
+    Favourites
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -19,7 +21,8 @@ import { Search } from '../pages/search/search';
   entryComponents: [
     MyApp,
     HomePage,
-    Search
+    Search,
+    Favourites
   ],
   providers: [
     [Data, Storage]

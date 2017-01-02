@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { Nav, NavController } from 'ionic-angular';
+import { Data } from '../../providers/data';
+import { HomePage } from '../../pages/home/home';
+import { Favourites } from '../../pages/favourites/favourites';
 /*
   Generated class for the Search page.
 
@@ -12,10 +15,27 @@ import { NavController } from 'ionic-angular';
 })
 export class Search {
 
-  constructor(public navCtrl: NavController) {}
+  results: Array<{title: string, locationid: any}>;
+
+  constructor(public navCtrl: NavController, public dataService: Data, public nav: Nav) {
+    
+      this.results = dataService.getSearchResults('Search');
+
+  }
 
   ionViewDidLoad() {
-    console.log('Hello Search Page');
+    
   }
+
+  showResult(location) {
+        this.dataService.addLocationToList(location);
+        this.nav.setRoot(HomePage, {
+         location : location
+     });
+   }
+   
+   showFavourites() {
+     this.navCtrl.push(Favourites, {});
+    }
 
 }

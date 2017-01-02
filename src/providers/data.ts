@@ -15,14 +15,24 @@ export class Data {
   data: any;
   formattedData: any;
   formattedObservations: any;
-  locationsList: any;
+  defaultLocations: Array<{title: string, locationid: any}>;
+  defaultResults: Array<{title: string, locationid: any}>;
 
   constructor(private http: Http, public storage: Storage) {
-      this.locationsList = [
+    this.defaultLocations = [
               { title: 'Lyneham', locationid: '3740' },
               { title: 'Tulloch Bridge', locationid: '3047' },
               { title: 'Benson', locationid: '3658' }
-      ]
+            ];
+
+    this.defaultResults = [
+              { title: 'Lyneham', locationid: '3740' },
+              { title: 'Tulloch Bridge', locationid: '3047' },
+              { title: 'Benson', locationid: '3658' },
+              { title: 'Heathrow', locationid: '3772' },
+              { title: 'Lerwick', locationid: '3005' },
+              { title: 'Aboyne', locationid: '3080' }
+            ];
   }
 
 
@@ -329,6 +339,9 @@ export class Data {
   {
       return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
   }
+
+
+
   getLocation(): Promise<any> {
       return this.storage.get('locationid'); 
   }
@@ -347,8 +360,41 @@ export class Data {
     this.storage.set('locationList', locationList);
   }
 
-  addLocationToList(title, locationid): void {
+  addLocationToList(location): void {
+      console.log('Saving location', location); 
+      this.getLocationsList().then((result) => {
+        if (result) {
+          console.log('Adding to existing location list');
+          // Check location not already in list
+          console.log('Check', location, this.containsLocation(location, result))
+          if (!this.containsLocation(location, result)) {
+            result.push(location);
+            console.log(result);
+            this.saveLocationList(result);
+          }
+        } else {
+            console.log('Adding to new location list');
+            var newLocations: Array<{title: string, locationid: any}>;
+            newLocations = [];
+            newLocations.push(location);
+            this.saveLocationList(newLocations);
+        }
+      }); 
+  }
 
+  containsLocation(location, list) {
+      var i;
+      for (i = 0; i < list.length; i++) {
+          if (list[i].locationid == location.locationid) {
+              return true;
+          }
+      }
+      return false;
+  }
+
+// Search
+  getSearchResults(text) {
+    return this.defaultResults; // For now
   }
 
 }

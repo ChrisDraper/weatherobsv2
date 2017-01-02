@@ -27,3 +27,146 @@ ion-header .bar-button {
     background-image: none;
     background-color: rgba(1,1,1,0.4) !important;
 }
+
+// Main
+ion-header {
+    .toolbar-background {
+        background-color:transparent;
+    }
+
+    .toolbar-title {
+        color:#fff;
+    }
+}
+
+ion-content {
+     background: blue url(../assets/images/blue-sky.jpg) left top no-repeat;
+     background-size: cover;
+}
+
+ion-refresher div, ion-refresher-content {
+    color:#fff !important;
+}
+
+ion-refresher .spinner-crescent circle,
+ion-refresher .spinner-ios line, .spinner-ios-small line,
+ion-refresher .spinner-circles circle {
+    stroke: #fff;
+}
+
+ion-refresher .spinner-circles circle {
+    fill: #fff;
+}
+
+.has-refresher > .scroll-content {
+    border:none;
+}
+
+ion-card.top-card {
+    margin:0 0 10px 0;
+    width:100%;
+    background: rgba(1,1,1,0.4) !important;
+    position:relative;
+}
+
+ion-thumbnail[item-left]{
+    padding: 5px;
+    float: left;
+    background: cadetblue;
+    height: 50px;
+    width: 50px;
+}
+
+ion-thumbnail[item-left] img {
+    display: block;
+    width: 90%;
+    padding: 5%;
+}
+
+ion-card ion-thumbnail[item-left] {
+    width: 120px;
+    height: 120px;
+    margin: 0 10px 10px 0;
+    background:transparent !important;
+}
+
+ion-card h2 {
+    font-size:4rem !important;
+    color:#fff !important;
+}
+
+ion-card p {
+    font-size:1.4rem !important;
+    color:#fff !important;
+    line-height: 1.4em !important;
+}
+
+ion-card em {
+    
+    color: #fff;
+    font-size: 11px;
+    position: absolute;
+    bottom: 13px;
+    right: 10px;
+}
+
+ion-card em.obs-time {
+    right: auto;
+    left:10px;
+}
+
+ion-card .wind {
+    position: absolute;
+    top: 38px;
+    right: 10px;
+    color:#fff;
+}
+
+ion-card .type-desc {
+    font-size:1.3em;
+    display:block;
+}
+
+ion-item {
+    position:relative;
+    background: rgba(1,1,1,0.4) !important;
+    color:#fff !important;
+    border-top:none !important;
+    border-bottom:1px solid #ccc;
+}
+
+ion-item ion-thumbnail[item-left] {
+    background:transparent !important;
+    max-height:50px;
+}
+
+ion-item .item-inner {
+    border-bottom: none !important;
+}
+
+ion-item h2 {
+    font-size:3rem !important;
+}
+
+ion-item p {
+    color:#fff !important;
+    font-size:1.3rem !important;
+}
+
+ion-item em {
+    position:absolute;
+    bottom: 15px;
+    left: 10px;
+    font-size:1.3rem !important;
+}
+
+ion-item .type-desc {
+    font-size:1.3em;
+}
+
+ion-item .wind {
+    position: absolute;
+    top: 21px;
+    right: 10px;
+    color:#fff;
+}
