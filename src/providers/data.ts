@@ -35,7 +35,19 @@ export class Data {
             ];
   }
 
-
+formatLocationList(data): any {
+      this.formattedData = [];
+      if (data.Locations) { // Have data
+              let locArray = data.Locations.Location;
+              for (let l of locArray) {
+                  this.formattedData.push({
+                    title: l.name,
+                    locationid: l.id,
+                  });
+              }
+      }
+      return this.formattedData;
+}
 
  formatObservation(data): any {
       this.formattedData = {};

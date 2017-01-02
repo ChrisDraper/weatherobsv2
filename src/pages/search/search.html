@@ -22,6 +22,7 @@
 
 
 <ion-content padding>
+  <ion-searchbar (ionInput)="searchLocations($event)"></ion-searchbar>
   <button ion-button full color="light" *ngFor="let result of results" (click)="showResult(result)">
     {{result.title}}
   </button>
