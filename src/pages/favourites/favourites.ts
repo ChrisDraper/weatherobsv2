@@ -29,10 +29,10 @@ export class Favourites {
   loadFavourites() {
       this.dataService.getLocationsList().then((result) => {
         if (result) {
-          console.log('Favourite list by data storage');
+          //console.log('Favourite list by data storage');
           this.favourites = result;  
         } else {
-          console.log('Favourite list default, no local storage')
+          //console.log('Favourite list default, no local storage')
           this.favourites = this.dataService.defaultLocations;
           this.dataService.saveLocationList(this.favourites);
         }
@@ -46,7 +46,7 @@ export class Favourites {
    }
 
   removeLocation(location) {   
-      console.log('Removing location', location);
+      //console.log('Removing location', location);
       this.dataService.getLocationsList().then((result) => {
           result = result.filter(function( obj ) {
             return obj.locationid !== location.locationid;

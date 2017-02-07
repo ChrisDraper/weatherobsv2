@@ -177,7 +177,11 @@ formatLocationList(data): any {
 
   formatPressure(pressure): any {
       var fpressure = "";
-      fpressure = pressure + "mb";
+      if (pressure) {
+        fpressure = pressure + "mb";
+      } else {
+        fpressure = "Pressure n/a";
+      }
       return fpressure;
   }
 
@@ -222,19 +226,39 @@ formatLocationList(data): any {
         case "8":
           ftype = iconImage + "dcloud.svg";
           break;
-        case "9", "10", "13", "14", "16", "17", "19", "20", "21":
-          ftype = iconImage + "rshower.svg";
+        case "9":
+        case "10":
+        case "13":
+        case "14":
+        case "16":
+        case "17":
+        case "19":
+        case "20":
+        case "21":
+          ftype = iconImage + "rshowers.svg";
           break;
-        case "11", "12", "15":
+        case "11":
+        case "12":
+        case "15":
           ftype = iconImage + "rain.svg";
           break;
-        case "28", "29", "30":
+        case "28":
+        case "29":
+        case "30":
           ftype = iconImage + "thunderstorm.svg";
           break;
-        case "18", "17", "22", "23", "24", "25", "26", "27":
+        case "18":
+        case "17":
+        case "22":
+        case "23":
+        case "24":
+        case "25":
+        case "26":
+        case "27":
           ftype = iconImage + "snow.svg";
           break;
-        case "5", "6":
+        case "5":
+        case "6":
           ftype = iconImage + "mist.svg";
           break;
         case "0":
@@ -246,14 +270,12 @@ formatLocationList(data): any {
         case "NA":
           ftype = iconImage + "sunny.svg";
           break;
-        default:
-          ftype = iconImage + "sunny.svg";
       }
       return ftype;
   }
 
   formatTypeDesc(type): any {
-      var ftypedesc = ""
+      var ftypedesc = "";
       switch (type) {
         case "0":
           ftypedesc =  "Clear";;
@@ -261,7 +283,8 @@ formatLocationList(data): any {
         case "1":
           ftypedesc =  "Sunny";
           break;
-        case "2","3":
+        case "2":
+        case "3":
           ftypedesc =  "Partly cloudy";
           break;
         case "5":
@@ -276,7 +299,8 @@ formatLocationList(data): any {
         case "8":
           ftypedesc =  "Overcast";
           break;
-        case "9","10":
+        case "9":
+        case "10":
           ftypedesc =  "Light rain shower";
           break;
         case "11":
@@ -285,37 +309,43 @@ formatLocationList(data): any {
         case "12":
           ftypedesc =  "Light rain";
           break;
-        case "13","14":
+        case "13":
+        case "14":
           ftypedesc =  "Heavy rain shower";
           break;
         case "15":
           ftypedesc =  "Heavy rain";
           break;
-        case "16","17":
+        case "16":
+        case "17":
           ftypedesc =  "Sleet shower";
           break;
         case "18":
           ftypedesc =  "Sleet";
           break;
-        case "19","20":
+        case "19":
+        case "20":
           ftypedesc =  "Hail shower";
           break;
         case "21":
           ftypedesc =  "Sleet";
           break;
-        case "22","23":
+        case "22":
+        case "23":
           ftypedesc =  "Light snow shower";
           break;
         case "24":
           ftypedesc =  "Light snow";
           break;
-        case "25","26":
+        case "25":
+        case "26":
           ftypedesc =  "Heavy snow shower";
           break;
         case "27":
           ftypedesc =  "Heavy snow";
           break;
-        case "28","29":
+        case "28":
+        case "29":
           ftypedesc =  "Thunder shower";
           break;
         case "30":
@@ -378,19 +408,19 @@ formatLocationList(data): any {
   }
 
   addLocationToList(location): void {
-      console.log('Saving location', location); 
+      //console.log('Saving location', location); 
       this.getLocationsList().then((result) => {
         if (result) {
-          console.log('Adding to existing location list');
+          //console.log('Adding to existing location list');
           // Check location not already in list
-          console.log('Check', location, this.containsLocation(location, result))
+          //console.log('Check', location, this.containsLocation(location, result))
           if (!this.containsLocation(location, result)) {
             result.push(location);
             console.log(result);
             this.saveLocationList(result);
           }
         } else {
-            console.log('Adding to new location list');
+            //console.log('Adding to new location list');
             var newLocations: Array<{title: string, locationid: any}>;
             newLocations = [];
             newLocations.push(location);

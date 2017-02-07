@@ -31,27 +31,27 @@ export class Search {
   ionViewDidLoad() {
     this.dataService.getAPILocationsList().then((result) => {
         if (result) {
-          console.log('Search Constructor: Location list from local storage');
+          //console.log('Search Constructor: Location list from local storage');
           this.locationList = result;
         } else {
-          console.log('Search Constructor: Get location list from API');
+          //console.log('Search Constructor: Get location list from API');
           this.loadLocationsFromAPI();
         }
       });
   }
 
   loadLocationsFromAPI() {
-    console.log('Loading all locations from API');
+    //console.log('Loading all locations from API');
     this.http.get('http://datapoint.metoffice.gov.uk/public/data/val/wxobs/all/json/sitelist?key=' + this.appid)
               .map(res => res.json())
               .subscribe(
                   data => {
                     this.locationList = this.dataService.formatLocationList(data);
-                    console.log('loadLocationsFromAPI: Save location list to local storage');
+                    //console.log('loadLocationsFromAPI: Save location list to local storage');
                     this.dataService.saveAPILocationList(this.locationList);
                   },
                   error => {
-                    console.log(error);
+                    //console.log(error);
                     this.locationList = [];
                     this.presentToast('An error occured connecting to the server', 'middle');
                   });

@@ -23,8 +23,8 @@
   </ion-refresher>
   <ion-card class="top-card" *ngIf="latestObs">
     <ion-card-content>
-      <ion-thumbnail item-left>
-        <img src="assets/images/{{latestObs.type}}">
+      <ion-thumbnail item-left >
+        <img src="assets/images/{{latestObs.type}}" *ngIf="latestObs.type">
       </ion-thumbnail>
       <h2>{{latestObs.temp}}</h2>
       <p><span class="type-desc">{{latestObs.typeDesc}}</span>
@@ -39,7 +39,7 @@
   <ion-list  *ngIf="observations">
   <ion-item  *ngFor="let observation of observations">
     <ion-thumbnail item-left>
-      <img src="assets/images/{{observation.type}}">
+      <img src="assets/images/{{observation.type}}" *ngIf="observation.type">
       
     </ion-thumbnail>
     <h2>{{observation.temp}}</h2>
