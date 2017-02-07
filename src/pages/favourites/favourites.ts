@@ -19,11 +19,11 @@ export class Favourites {
   favourites: Array<{title: string, locationid: any}>;
 
   constructor(public navCtrl: NavController,public dataService: Data, public nav: Nav, private toastCtrl: ToastController) {
-     this.loadFavourites();
+     
   }
 
   ionViewDidLoad() {
-    
+    this.loadFavourites();
   }
 
   loadFavourites() {

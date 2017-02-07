@@ -24,7 +24,12 @@ export class Search {
   constructor(public navCtrl: NavController, public dataService: Data, public nav: Nav, public http: Http, private toastCtrl: ToastController) {
     
       this.appid = 'c52882f0-643b-4821-ad25-f2b8862ce289';
-      this.dataService.getAPILocationsList().then((result) => {
+      
+
+  }
+
+  ionViewDidLoad() {
+    this.dataService.getAPILocationsList().then((result) => {
         if (result) {
           console.log('Search Constructor: Location list from local storage');
           this.locationList = result;
@@ -33,11 +38,6 @@ export class Search {
           this.loadLocationsFromAPI();
         }
       });
-
-  }
-
-  ionViewDidLoad() {
-    
   }
 
   loadLocationsFromAPI() {

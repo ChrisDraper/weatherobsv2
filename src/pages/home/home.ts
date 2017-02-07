@@ -22,37 +22,32 @@ export class HomePage {
 
 
 	constructor(public navCtrl: NavController, public navParams: NavParams, public dataService: Data, private http: Http, public alertCtrl: AlertController, private toastCtrl: ToastController) {
-    
     this.appid = 'c52882f0-643b-4821-ad25-f2b8862ce289';
-    if (this.navParams.get('location')){
-      console.log('Location load: ' + this.navParams.get('location').locationid);
-      this.locationid = this.navParams.get('location').locationid;
-      this.dataService.saveLocation(this.locationid);
-      this.refreshObs();
-    } else {    
-      this.dataService.getLocation().then((result) => {
-          if(result){
-            console.log('Data storage load: ' + result);
-            this.locationid = result; 
-            this.dataService.saveLocation(this.locationid);
-            this.refreshObs();
-          } else {
-            this.searchLocation();
-          }  
-        });
-
-    }
-
-
+    console.log('Constructor');   
 	}
 
   
 
   ionViewDidLoad() {
-      //this.testloc = this.navParams.get('location');
-      //this.locationid = this.testloc.locationid;
-      //this.refreshObs();
-      //console.log(this.navParams.get('location'));
+      console.log('IonViewDidLoad');   
+     if (this.navParams.get('location')){
+        console.log('Location load: ' + this.navParams.get('location').locationid);
+        this.locationid = this.navParams.get('location').locationid;
+        this.dataService.saveLocation(this.locationid);
+        this.refreshObs();
+      } else {    
+        this.dataService.getLocation().then((result) => {
+            if(result){
+              console.log('Data storage load: ' + result);
+              this.locationid = result; 
+              this.dataService.saveLocation(this.locationid);
+              this.refreshObs();
+            } else {
+              this.searchLocation();
+            }  
+          });
+
+      }
   }
 
   refreshObs() {
