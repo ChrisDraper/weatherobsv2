@@ -21,7 +21,13 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
+  <div #pleaseConnect id="please-connect">
+    <p>Please connect to the Internet...</p>
+  </div>
+ 
+  <div #map id="map"></div>
+
   <ion-searchbar (ionInput)="searchLocations($event)"></ion-searchbar>
   <button ion-button full color="light" *ngFor="let result of results" (click)="showResult(result)">
     {{result.title}}
