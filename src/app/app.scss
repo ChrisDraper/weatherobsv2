@@ -40,8 +40,25 @@ ion-header {
 }
 
 ion-content {
-     background: blue url(../assets/images/blue-sky.jpg) left top no-repeat;
-     background-size: cover;
+    /* Blue */
+    background: #4fb8d9;
+    background: linear-gradient(20deg, #6fe3e7, #4fb8d9 25%, #5648c1);/**/
+ 
+    /* Green */
+    /*background: #accd3a;
+    background: linear-gradient(20deg, #accd3a, #2bc792);*/
+ 
+    /* Red */
+    /*background: #d23c39;
+    background: linear-gradient(-20deg, #d23c39, #dca74a);*/
+ 
+    /* Lighter green */
+    /*background: #5dd19c;
+    background: linear-gradient(20deg, #104a72, #5dd19c 75%, #fffae8);*/
+ 
+    /* Purple */
+    /*background: #dc2430;
+    background: linear-gradient(-20deg, #7b4397, #dc2430);*/
 }
 
 ion-refresher div, ion-refresher-content {

@@ -61,6 +61,7 @@ formatLocationList(data): any {
         //console.log(data.Location.Period.slice(-1));
         // Time
         var date = new Date(data.dataDate);
+        console.log(date);
         this.formattedData.time = this.formatTime(date);
 
         // Get latest data record
@@ -107,12 +108,12 @@ formatLocationList(data): any {
             if (data.Location.Period[0]) {
               if (data.Location.Period.slice(-1)[0].Rep.slice(step)[0]) {
                 latestObs = data.Location.Period.slice(-1)[0].Rep.slice(step)[0];
-                //console.log(latestObs, step);
+                console.log(latestObs, step);
               }
             } else {
               if (data.Location.Period.Rep.slice(step)[0]) {
                 latestObs = data.Location.Period.Rep.slice(step)[0];
-                //console.log(latestObs, step);
+                console.log(latestObs, step);
               }
             }
             var date = new Date(data.dataDate);

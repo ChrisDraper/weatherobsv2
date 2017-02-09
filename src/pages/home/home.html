@@ -31,7 +31,7 @@
         <br />{{latestObs.pressure}}
         <br />{{latestObs.dewPoint}}
         </p>
-      <em class="obs-time" *ngIf="lastUpdated">{{lastUpdated}}</em>
+      <em class="obs-time" *ngIf="lastUpdated">{{latestObs.time}} - {{lastUpdated}}</em>
       <span class="wind">{{latestObs.windSpeed}} {{latestObs.windDirection}}</span>
     </ion-card-content>
   </ion-card>
