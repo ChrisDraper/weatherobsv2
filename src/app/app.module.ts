@@ -6,6 +6,7 @@ import { Storage } from '@ionic/storage';
 import { HomePage } from '../pages/home/home';
 import { Search } from '../pages/search/search';
 import { Favourites } from '../pages/favourites/favourites';
+import { Connectivity } from '../providers/connectivity';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,7 @@ import { Favourites } from '../pages/favourites/favourites';
     Favourites
   ],
   providers: [
-    [Data, Storage]
+    [Data, Storage, Connectivity]
   ]
 })
 export class AppModule {}
