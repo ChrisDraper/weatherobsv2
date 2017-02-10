@@ -4,7 +4,6 @@ import { Http } from '@angular/http';
 import { Data } from '../../providers/data';
 import { HomePage } from '../../pages/home/home';
 import { Favourites } from '../../pages/favourites/favourites';
-import { Locations } from '../../providers/locations';
 import { GoogleMaps } from '../../providers/googlemaps';
 /*
   Generated class for the Search page.
@@ -45,10 +44,27 @@ export class Search {
             //console.log('Search Constructor: Get location list from API');
             this.loadLocationsFromAPI();
           }
-        });
+          // Map magic
+          let mapLoaded = this.maps.init(this.mapElement.nativeElement, this.pleaseConnect.nativeElement);
+          let locationsLoaded = this.locationList;
+  
+              Promise.all([
+                  mapLoaded,
+                  locationsLoaded
+              ]).then((result) => {
+  
+                  let locations = result[1];
+  
+                  for(let location of locations){
+                      console.log(location);
+                      this.maps.addMarker(location.latitude, location.longitude, location.title, location.elevation);
+                  }
+  
+              });
 
-        // Map magic
-        let mapLoaded = this.maps.init(this.mapElement.nativeElement, this.pleaseConnect.nativeElement);
+          });
+
+       
     });
   }
 

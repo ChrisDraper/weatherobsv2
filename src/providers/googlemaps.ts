@@ -95,9 +95,11 @@ export class GoogleMaps {
  
         let mapOptions = {
           center: latLng,
-          zoom: 15,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
+          zoom: 9,
+          mapTypeId: google.maps.MapTypeId.TERRAIN
         }
+
+
  
         this.map = new google.maps.Map(this.mapElement, mapOptions);
         resolve(true);
@@ -157,7 +159,7 @@ export class GoogleMaps {
  
   }
  
-  addMarker(lat: number, lng: number): void {
+  addMarker(lat: number, lng: number, title: string, elevation: string): void {
  
     let latLng = new google.maps.LatLng(lat, lng);
  
@@ -165,6 +167,19 @@ export class GoogleMaps {
       map: this.map,
       animation: google.maps.Animation.DROP,
       position: latLng
+    });
+    let contentString = '<div id="content">'+
+    '<h1 style=\'color:#333\'>' + title + '</h1>'+
+    '<p style=\'color:#333\'>Elevation: ' + elevation + 'm<br />' +
+    '<a href=\'\' style=\'color:#333\'>View observations</a>'+
+    '</p>'+
+    '</div>';
+
+    let infowindow = new google.maps.InfoWindow({
+      content: contentString
+    });
+    marker.addListener('click', function() {
+      infowindow.open(this.map, marker);
     });
  
     this.markers.push(marker);  
