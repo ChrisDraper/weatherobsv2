@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
-import { Nav, NavController, ToastController } from 'ionic-angular';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Nav, NavController, ToastController, Platform } from 'ionic-angular';
 import { Http } from '@angular/http';
 import { Data } from '../../providers/data';
 import { HomePage } from '../../pages/home/home';
 import { Favourites } from '../../pages/favourites/favourites';
+import { Locations } from '../../providers/locations';
+import { GoogleMaps } from '../../providers/googlemaps';
 /*
   Generated class for the Search page.
 
@@ -16,12 +18,16 @@ import { Favourites } from '../../pages/favourites/favourites';
 })
 export class Search {
 
+ 
+  @ViewChild('map') mapElement: ElementRef;
+  @ViewChild('pleaseConnect') pleaseConnect: ElementRef;
+
   appid: string;
   results: Array<{title: string, locationid: any}>;
   locationList: Array<{title: string, locationid: any}>;
 
 
-  constructor(public navCtrl: NavController, public dataService: Data, public nav: Nav, public http: Http, private toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public dataService: Data, public nav: Nav, public http: Http, private toastCtrl: ToastController, public maps: GoogleMaps, public platform: Platform) {
     
       this.appid = 'c52882f0-643b-4821-ad25-f2b8862ce289';
       
@@ -29,15 +35,21 @@ export class Search {
   }
 
   ionViewDidLoad() {
-    this.dataService.getAPILocationsList().then((result) => {
-        if (result) {
-          //console.log('Search Constructor: Location list from local storage');
-          this.locationList = result;
-        } else {
-          //console.log('Search Constructor: Get location list from API');
-          this.loadLocationsFromAPI();
-        }
-      });
+ 
+    this.platform.ready().then(() => {
+      this.dataService.getAPILocationsList().then((result) => {
+          if (result) {
+            //console.log('Search Constructor: Location list from local storage');
+            this.locationList = result;
+          } else {
+            //console.log('Search Constructor: Get location list from API');
+            this.loadLocationsFromAPI();
+          }
+        });
+
+        // Map magic
+        let mapLoaded = this.maps.init(this.mapElement.nativeElement, this.pleaseConnect.nativeElement);
+    });
   }
 
   loadLocationsFromAPI() {

@@ -7,6 +7,7 @@ import { HomePage } from '../pages/home/home';
 import { Search } from '../pages/search/search';
 import { Favourites } from '../pages/favourites/favourites';
 import { Connectivity } from '../providers/connectivity';
+import { GoogleMaps } from '../providers/googlemaps';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,7 @@ import { Connectivity } from '../providers/connectivity';
     Favourites
   ],
   providers: [
-    [Data, Storage, Connectivity]
+    [Data, Storage, Connectivity, GoogleMaps]
   ]
 })
 export class AppModule {}
