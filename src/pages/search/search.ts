@@ -27,14 +27,10 @@ export class Search {
 
 
   constructor(public navCtrl: NavController, public dataService: Data, public nav: Nav, public http: Http, private toastCtrl: ToastController, public maps: GoogleMaps, public platform: Platform) {
-    
       this.appid = 'c52882f0-643b-4821-ad25-f2b8862ce289';
-      
-
   }
 
   ionViewDidLoad() {
- 
     this.platform.ready().then(() => {
       this.dataService.getAPILocationsList().then((result) => {
           if (result) {
@@ -47,16 +43,13 @@ export class Search {
           // Map magic
           let mapLoaded = this.maps.init(this.mapElement.nativeElement, this.pleaseConnect.nativeElement);
           let locationsLoaded = this.locationList;
-  
               Promise.all([
                   mapLoaded,
                   locationsLoaded
               ]).then((result) => {
-  
                   let locations = result[1];
   
                   for(let location of locations){
-                      console.log(location);
                       this.maps.addMarker(location.latitude, location.longitude, location.title, location.elevation);
                   }
   

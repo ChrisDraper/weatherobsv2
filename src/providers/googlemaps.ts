@@ -21,12 +21,11 @@ export class GoogleMaps {
   }
  
   init(mapElement: any, pleaseConnect: any): Promise<any> {
- 
     this.mapElement = mapElement;
     this.pleaseConnect = pleaseConnect;
- 
+    console.log('init: loadGoogleMaps');
     return this.loadGoogleMaps();
- 
+    
   }
  
   loadGoogleMaps(): Promise<any> {
@@ -95,7 +94,7 @@ export class GoogleMaps {
  
         let mapOptions = {
           center: latLng,
-          zoom: 9,
+          zoom: 8,
           mapTypeId: google.maps.MapTypeId.TERRAIN
         }
 
@@ -109,6 +108,8 @@ export class GoogleMaps {
     });
  
   }
+
+
  
   disableMap(): void {
  
@@ -171,7 +172,7 @@ export class GoogleMaps {
     let contentString = '<div id="content">'+
     '<h1 style=\'color:#333\'>' + title + '</h1>'+
     '<p style=\'color:#333\'>Elevation: ' + elevation + 'm<br />' +
-    '<a href=\'\' style=\'color:#333\'>View observations</a>'+
+    '<a href=\'javascript:;\' style=\'color:#333\'>View observations</a>'+
     '</p>'+
     '</div>';
 
@@ -185,5 +186,14 @@ export class GoogleMaps {
     this.markers.push(marker);  
  
   }
+
+  infoClick(): void {
+        //this.dataService.addLocationToList(location);
+        //this.nav.setRoot(HomePage, {
+        // location : location
+        //});
+        console.log('infoClick()');
+  }
+
  
 }
