@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Connectivity } from './connectivity';
 import { Geolocation } from 'ionic-native';
+import { HomePage } from '../pages/home/home';
+import { Data } from './data';
  
 declare var google;
  
@@ -16,7 +18,7 @@ export class GoogleMaps {
   markers: any = [];
   apiKey: string;
  
-  constructor(public connectivityService: Connectivity) {
+  constructor(public connectivityService: Connectivity, public dataService: Data) {
  
   }
  
@@ -160,40 +162,27 @@ export class GoogleMaps {
  
   }
  
-  addMarker(lat: number, lng: number, title: string, elevation: string): void {
- 
-    let latLng = new google.maps.LatLng(lat, lng);
- 
+  addMarker(location, nav, data): void {
+    let latLng = new google.maps.LatLng(location.latitude, location.longitude);
     let marker = new google.maps.Marker({
       map: this.map,
       animation: google.maps.Animation.DROP,
       position: latLng
     });
-    let contentString = '<div id="content">'+
-    '<h1 style=\'color:#333\'>' + title + '</h1>'+
-    '<p style=\'color:#333\'>Elevation: ' + elevation + 'm<br />' +
-    '<a href=\'javascript:;\' style=\'color:#333\'>View observations</a>'+
-    '</p>'+
-    '</div>';
 
-    let infowindow = new google.maps.InfoWindow({
-      content: contentString
-    });
     marker.addListener('click', function() {
-      infowindow.open(this.map, marker);
+        console.log(location.locationid);
+        data.addLocationToList(location);
+        nav.setRoot(HomePage, {
+          location : location
+        });
     });
  
     this.markers.push(marker);  
  
   }
 
-  infoClick(): void {
-        //this.dataService.addLocationToList(location);
-        //this.nav.setRoot(HomePage, {
-        // location : location
-        //});
-        console.log('infoClick()');
-  }
+
 
  
 }

@@ -50,7 +50,7 @@ export class Search {
                   let locations = result[1];
   
                   for(let location of locations){
-                      this.maps.addMarker(location.latitude, location.longitude, location.title, location.elevation);
+                      this.maps.addMarker(location, this.nav, this.dataService);
                   }
   
               });
