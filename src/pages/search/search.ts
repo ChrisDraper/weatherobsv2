@@ -27,10 +27,12 @@ export class Search {
 
 
   constructor(public navCtrl: NavController, public dataService: Data, public nav: Nav, public http: Http, private toastCtrl: ToastController, public maps: GoogleMaps, public platform: Platform) {
+      console.log('constructor');
       this.appid = 'c52882f0-643b-4821-ad25-f2b8862ce289';
   }
 
   ionViewDidLoad() {
+     console.log('ionViewDidLoad');
     this.platform.ready().then(() => {
       this.dataService.getAPILocationsList().then((result) => {
           if (result) {
@@ -41,6 +43,8 @@ export class Search {
             this.loadLocationsFromAPI();
           }
           // Map magic
+          console.log('mapLoaded');
+          console.log(this.locationList);
           let mapLoaded = this.maps.init(this.mapElement.nativeElement, this.pleaseConnect.nativeElement);
           let locationsLoaded = this.locationList;
               Promise.all([
@@ -48,14 +52,16 @@ export class Search {
                   locationsLoaded
               ]).then((result) => {
                   let locations = result[1];
+                   console.log('locations');
   
-                  for(let location of locations){
+                 for(let location of locations){
                       this.maps.addMarker(location, this.nav, this.dataService);
                   }
-  
               });
 
-          });
+           
+
+        });
 
        
     });

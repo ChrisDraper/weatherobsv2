@@ -35,7 +35,7 @@ export class GoogleMaps {
     return new Promise((resolve) => {
  
       if(typeof google == "undefined" || typeof google.maps == "undefined"){
- 
+        
         console.log("Google maps JavaScript needs to be loaded.");
         this.disableMap();
  
@@ -64,7 +64,7 @@ export class GoogleMaps {
         } 
       }
       else {
- 
+        console.log("Google maps JavaScript is already loaded.");
         if(this.connectivityService.isOnline()){
           this.initMap();
           this.enableMap();
