@@ -405,8 +405,19 @@ formatLocationList(data): any {
   }
 
   saveLocationList(locationList): void {
+    locationList.sort(this.locationCompare);
     this.storage.set('locationList', locationList);
   }
+
+  locationCompare(a,b) {
+    if (a.title < b.title)
+      return -1;
+    if (a.title > b.title)
+      return 1;
+    return 0;
+  }
+
+  
 
   addLocationToList(location): void {
       //console.log('Saving location', location); 
@@ -417,7 +428,6 @@ formatLocationList(data): any {
           //console.log('Check', location, this.containsLocation(location, result))
           if (!this.containsLocation(location, result)) {
             result.push(location);
-            console.log(result);
             this.saveLocationList(result);
           }
         } else {

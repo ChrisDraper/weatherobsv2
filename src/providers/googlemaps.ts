@@ -171,7 +171,6 @@ export class GoogleMaps {
     });
 
     marker.addListener('click', function() {
-        console.log(location.locationid);
         data.addLocationToList(location);
         nav.setRoot(HomePage, {
           location : location
